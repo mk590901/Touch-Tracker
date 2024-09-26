@@ -186,28 +186,26 @@ class TrackContextObject implements IObject {
 
   @override
   void done(ObjectEvent signal) {
-    // TODO: implement done
-  }
+		_mediator?.objDone(signal.event(), signal.data()!);
+	}
 
   @override
   void execute(String state, int signal, Object? data) {
-    // TODO: implement execute
   }
 
   @override
   void init() {
-    // TODO: implement init
-  }
+		_mediator?.init();
+	}
 
   @override
   IMediator? mediator() {
-    // TODO: implement mediator
-    throw UnimplementedError();
+		return _mediator;
   }
 
   @override
   void setMediator(IMediator mediator) {
-    // TODO: implement setMediator
+		_mediator = mediator;
   }
 }
 

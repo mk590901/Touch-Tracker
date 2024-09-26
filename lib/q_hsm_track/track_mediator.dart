@@ -1,3 +1,7 @@
+import 'dart:async';
+import 'dart:collection';
+
+import '../q_hsm_core/q_event.dart';
 import '../q_hsm_core/q_hsm.dart';
 import '../q_interfaces/i_hsm.dart';
 import '../q_interfaces/i_logger.dart';
@@ -11,20 +15,21 @@ import 'track_qhsm_scheme.dart';
 class Mediator extends IMediator {
 
 	final Map <int,String>	hashTable	= <int, String>{};
-	ILogger?	_logger;
+	final ILogger?	_logger;
 	IHsm?	_hsm;
-	TrackContextObject	_context;
+	final TrackContextObject	_context;
 	final Interceptor	_interceptor;
 	final Commands	_commands	= Commands();
 	final Pairs	_connector	= Pairs();
 
+	final Queue<QEvent> _queue = Queue<QEvent>();
+
 	Mediator(this._context, this._interceptor, this._logger) {
-		_context?.setMediator(this);
+		_context.setMediator(this);
 		createTable	();
 		createCommands	();
 		createConnector	();
 	}
-
 
 	void createTable() {
 		hashTable[QHsm.	Q_EMPTY_SIG	] = "Q_EMPTY";
@@ -80,7 +85,7 @@ class Mediator extends IMediator {
 		_commands.add("CheckMoveState",	QHsmScheme.TouchMove,	CheckMoveTouchMove);
 	}
 
-	initTop(int signal, int ticket) {
+	/*bool*/ initTop(int signal, int ticket) {
 		Object? value = _interceptor.getObject(ticket);
 		bool result = _context.onInitTop(value);
 		return result;
@@ -208,45 +213,89 @@ class Mediator extends IMediator {
 
   @override
   void execute(String? state, int signal, [int? data]) {
-    // TODO: implement execute
-  }
+		dynamic command = _commands.get(state!, signal);
+		if (command == null) {
+			Object? dataObject = _interceptor.getObject(data!);
+			if (dataObject == null) {
+				_logger?.trace('$state-${getEventId(signal)}');
+			} else {
+				_logger?.trace('$state-${getEventId(signal)}[$dataObject]');
+			}
+		} else if (command != null) {
+			command(signal, data);
+		}
+	}
 
   @override
   int getEvent(int contextEventID) {
-    // TODO: implement getEvent
-    throw UnimplementedError();
+		return _connector.get(contextEventID);
   }
 
   @override
   String? getEventId(int event) {
-    // TODO: implement getEventId
-    throw UnimplementedError();
+		return hashTable.containsKey(event) ? hashTable[event] : "UNKNOWN";
   }
 
   @override
   ILogger? getLogger() {
-    // TODO: implement getLogger
-    throw UnimplementedError();
-  }
+		return _logger;
+	}
 
   @override
   void init() {
-    // TODO: implement init
+		scheduleMicrotask(() {
+			//_logger?.clear('[INIT]: ');
+			_hsm?.init();
+			//_logger?.printTrace();
+		});
   }
 
-  @override
+	int eventObj2Hsm(int signal) {
+		return _connector.get(signal); // !!! Problem H
+	}
+
+	@override
   void objDone(int signal, Object? data) {
-    // TODO: implement objDone
+		int hsmEvt = eventObj2Hsm(signal);
+		int dataId = _interceptor.putObject(data);
+		QEvent e = QEvent(hsmEvt, dataId);
+		scheduleMicrotask(() {
+			while (_queue.isNotEmpty) {
+				QEvent event = _queue.removeFirst();
+				String?  eventText = getEventId(event.sig);
+				//_logger?.clear('TrackMediator.objDone.[$eventText]: ');
+				_hsm!.dispatch(event);
+				//_logger?.printTrace();
+				_interceptor.clear(event.ticket);
+			}
+		});
   }
 
   @override
   void objDoneInside(int signal, Object? data) {
-    // TODO: implement objDoneInside
+		int hsmEvt = eventObj2Hsm(signal);
+		int dataId = _interceptor.putObject(data);
+		QEvent e = QEvent(hsmEvt, dataId);
+		_queue.addFirst(e);
+
+//      printQueue();
+
+		scheduleMicrotask(() {
+			while (_queue.isNotEmpty) {
+				QEvent event = _queue.removeFirst();
+				//String?  eventText = getEventId(event.sig);
+				//_logger.clear('[$eventText]: ');
+				_hsm?.dispatch(event);
+				//_logger.printTrace();
+				//_logger.printTraceW();
+				_interceptor.clear(event.ticket);
+			}
+		});
   }
 
   @override
   void setHsm(IHsm hsm) {
-    // TODO: implement setHsm
-  }
+		_hsm = hsm;
+	}
 }
 
