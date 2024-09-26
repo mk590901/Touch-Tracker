@@ -1,6 +1,7 @@
 
 import 'dart:math';
 
+import '../gesture/gesture_manager.dart';
 import '../q_hsm_track/track_context_object.dart';
 import '../q_hsm_track/track_hsm_wrapper.dart';
 import '../q_hsm_track/track_mediator.dart';
@@ -12,7 +13,7 @@ import 'logger.dart';
 import 'object_event.dart';
 
 class Tracker {
-  //GestureManager  _manager;
+  GestureManager  _manager;
 
   ILogger?             logger;
   ILogger?             contextLogger;
@@ -25,7 +26,7 @@ class Tracker {
   final int           _pointer;
   Point<double>?      _currentPoint;
 
-  Tracker(/*this._manager,*/ this._pointer) {
+  Tracker(this._manager, this._pointer) {
     logger        = Logger();
     contextLogger = Logger();
     interceptor   = Interceptor(logger!);

@@ -1,7 +1,9 @@
 import 'dart:math';
 
+import '../gesture/gesture_manager.dart';
 import '../helpers/DirectionHelper.dart';
 import '../helpers/velocity_helper.dart';
+import '../q_interfaces/i_gesture_listener.dart';
 import '../q_interfaces/i_logger.dart';
 import '../q_interfaces/i_mediator.dart';
 import '../q_interfaces/i_object.dart';
@@ -13,11 +15,17 @@ class TrackContextObject implements IObject {
 	IMediator? _mediator;
 	final ILogger? _logger;
 	final int _pointer;
+	Point<double>?     _downPoint;
+	Point<double>?     _lastPoint;
+	bool              _pause          = false;
 
-	final TimeMachine? _timeMachine    = TimeMachine();
+	final TimeMachine _timeMachine    = TimeMachine();
+	late  String       _timer          = "";
 
 	final VelocityHelper    _velocityHelper = VelocityHelper  (8);
 	final DirectionHelper   _directionHelper= DirectionHelper (8);
+
+	final int  TIMEOUT_FOR_LONG_PRESS = 1000;
 
 	static final int  APP_START_ENUM  = 1;
 	static final int  TERMINATE       = APP_START_ENUM;
@@ -61,6 +69,10 @@ class TrackContextObject implements IObject {
 		_logger?.trace(data == null
 				? 'Idle-QHsmScheme.TouchDown'
 				: 'Idle-QHsmScheme.TouchDown[$data]');
+
+		setDownPoint(data as Point<double>);
+		_timer = _timeMachine!.invoke2(TIMEOUT_FOR_LONG_PRESS, startNotifier, finalNotifier);
+
 		return result;
 	}
 
@@ -69,6 +81,9 @@ class TrackContextObject implements IObject {
 		_logger?.trace(data == null
 				? 'Idle-QHsmScheme.TouchUp'
 				: 'Idle-QHsmScheme.TouchUp[$data]');
+
+		_timeMachine.delete(_timer);
+
 		return result;
 	}
 
@@ -77,6 +92,9 @@ class TrackContextObject implements IObject {
 		_logger?.trace(data == null
 				? 'Idle-QHsmScheme.Reset'
 				: 'Idle-QHsmScheme.Reset[$data]');
+
+		_timeMachine.delete(_timer);
+
 		return result;
 	}
 
@@ -101,6 +119,10 @@ class TrackContextObject implements IObject {
 		_logger?.trace(data == null
 				? 'InsideDown-QHsmScheme.TouchMove'
 				: 'InsideDown-QHsmScheme.TouchMove[$data]');
+
+		_timeMachine.delete(_timer);
+		GestureManager.manager()?.eventTap(_pointer, _downPoint!);
+
 		return result;
 	}
 
@@ -117,6 +139,9 @@ class TrackContextObject implements IObject {
 		_logger?.trace(data == null
 				? 'InsideDown-QHsmScheme.Timeout'
 				: 'InsideDown-QHsmScheme.Timeout[$data]');
+
+		GestureManager.manager()?.eventLongPress(_pointer, _downPoint!);
+
 		return result;
 	}
 
@@ -125,6 +150,24 @@ class TrackContextObject implements IObject {
 		_logger?.trace(data == null
 				? 'Moving-QHsm.Q_ENTRY_SIG'
 				: 'Moving-QHsm.Q_ENTRY_SIG[$data]');
+
+		double average  = _velocityHelper.average();
+		if (average >= 0.01) {
+			//print('MOVE');
+			//@@@@@@@_gesture.onMove(_pointer, ActionModifier.Continue, data);
+			GestureManager.manager()?.eventMove(_pointer, ActionModifier.Continue, data as Point<double>);
+
+			setLastPoint(data);
+			setPause(false);
+		}
+		else { //print('PAUSE');
+			if (!isPause()) {
+				//  _gesture.onPause(_pointer, data);
+				GestureManager.manager()?.eventPause(_pointer, data as Point<double>);
+				setPause(true);
+			}
+		}
+
 		return result;
 	}
 
@@ -141,6 +184,9 @@ class TrackContextObject implements IObject {
 		_logger?.trace(data == null
 				? 'Moving-QHsmScheme.TouchUp'
 				: 'Moving-QHsmScheme.TouchUp[$data]');
+
+		GestureManager.manager()?.eventMove(_pointer, ActionModifier.Final, data as Point<double>);
+
 		return result;
 	}
 
@@ -173,6 +219,10 @@ class TrackContextObject implements IObject {
 		_logger?.trace(data == null
 				? 'CheckMove-QHsmScheme.MoveStart'
 				: 'CheckMove-QHsmScheme.MoveStart[$data]');
+
+		_timeMachine.delete(_timer);
+		GestureManager.manager()?.eventMove(_pointer, ActionModifier.Start, data as Point<double>);
+
 		return result;
 	}
 
@@ -181,6 +231,9 @@ class TrackContextObject implements IObject {
 		_logger?.trace(data == null
 				? 'CheckMove-QHsmScheme.TouchUp'
 				: 'CheckMove-QHsmScheme.TouchUp[$data]');
+
+		GestureManager.manager()?.eventTap(_pointer, _downPoint!);
+
 		return result;
 	}
 
@@ -189,6 +242,9 @@ class TrackContextObject implements IObject {
 		_logger?.trace(data == null
 				? 'CheckMove-QHsmScheme.Timeout'
 				: 'CheckMove-QHsmScheme.Timeout[$data]');
+
+		GestureManager.manager()?.eventLongPress(_pointer, _downPoint!);
+
 		return result;
 	}
 
@@ -197,6 +253,9 @@ class TrackContextObject implements IObject {
 		_logger?.trace(data == null
 				? 'CheckMove-QHsmScheme.TouchMove'
 				: 'CheckMove-QHsmScheme.TouchMove[$data]');
+
+		GestureManager.manager()?.eventMove(_pointer, ActionModifier.Start, data as Point<double>);
+
 		return result;
 	}
 
@@ -254,6 +313,45 @@ class TrackContextObject implements IObject {
 		_directionHelper.reset();
 	}
 
+	void setDownPoint(Point<double> point) {
+		_downPoint  = point;
+		print('setDownPoint->[${point.x},${point.y}]');
+	}
+
+	Point<double>? getDownPoint() {
+		return  _downPoint;
+	}
+
+	void setLastPoint(Object? data) {
+		_lastPoint = data as Point<double>;
+	}
+
+	Point<double>? getLastPoint() {
+		return  _lastPoint;
+	}
+
+	void setPause(bool enable) {
+		_pause = enable;
+	}
+
+	bool isPause() {
+		return  _pause;
+	}
+
+	void startNotifier (String timerIdent, String action) {
+		DateTime now = DateTime.now();
+		print('[$timerIdent] $action ${now.hour}:${now.minute}:${now.second}:${now.millisecond}');
+	}
+
+	void finalNotifier (String timerIdent, String action) {
+		DateTime now = DateTime.now();
+		print('[$timerIdent] $action ${now.hour}:${now.minute}:${now.second}:${now.millisecond}');
+		done(ObjectEvent(TrackContextObject.Timeout, "TIMEOUT"));
+	}
+
+	void deleteTimer() {
+		_timeMachine.delete(_timer);
+	}
 
 }
 

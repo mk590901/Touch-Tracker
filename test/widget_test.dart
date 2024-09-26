@@ -12,7 +12,8 @@ import 'package:touch_track/main.dart';
 
 void main() {
 
-  test('state machine', () async {
+  test('state machine', () {
+
   });
 
   // testWidgets('Counter increments smoke test', (WidgetTester tester) async {
