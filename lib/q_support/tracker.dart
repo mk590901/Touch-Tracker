@@ -40,7 +40,7 @@ class Tracker {
   }
 
   void done(ObjectEvent event) {
-    print ('tracker done');
+    print ('tracker done ${event.event()}:${event.data()}');
     contextObject.done(event);
   }
 
@@ -54,7 +54,7 @@ class Tracker {
   }
 
   void update(int time, double x, double y) {
-    print ('tracker update is done');
+    print ('tracker update is done [$x,$y]');
     contextObject.moveDone(time, x, y, this);
   }
 
