@@ -13,7 +13,7 @@ import 'logger.dart';
 import 'object_event.dart';
 
 class Tracker {
-  GestureManager  _manager;
+  //GestureManager  _manager;
 
   ILogger?             logger;
   ILogger?             contextLogger;
@@ -26,7 +26,7 @@ class Tracker {
   final int           _pointer;
   Point<double>?      _currentPoint;
 
-  Tracker(this._manager, this._pointer) {
+  Tracker(/*this._manager,*/ this._pointer) {
     logger        = Logger();
     contextLogger = Logger();
     interceptor   = Interceptor(logger!);

@@ -75,7 +75,7 @@ class GestureManager {
       _container.clear();
       //return;
     }
-    _container.register(key, Tracker(this, key));
+    _container.register(key, Tracker(/*this,*/ key));
     Tracker? tracker = _container.get(key);
     if (tracker == null) {
       print("onDown: Failed to get tracker [$key]");

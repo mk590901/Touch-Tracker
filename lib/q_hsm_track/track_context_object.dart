@@ -37,9 +37,7 @@ class TrackContextObject implements IObject {
 	static final int  Reset           = APP_START_ENUM + 6;
 	static final int  INIT_IsDone     = APP_START_ENUM + 7;
 
-	TrackContextObject(this._pointer, [this._logger]); /*{
-		_timeMachine  = TimeMachine();
-	}*/
+	TrackContextObject(this._pointer, [this._logger]);
 
 	bool onInitTop(Object? data) {
 		bool result = false;
@@ -71,7 +69,7 @@ class TrackContextObject implements IObject {
 				: 'Idle-QHsmScheme.TouchDown[$data]');
 
 		setDownPoint(data as Point<double>);
-		_timer = _timeMachine!.invoke2(TIMEOUT_FOR_LONG_PRESS, startNotifier, finalNotifier);
+		_timer = _timeMachine.invoke2(TIMEOUT_FOR_LONG_PRESS, startNotifier, finalNotifier);
 
 		return result;
 	}
