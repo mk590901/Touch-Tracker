@@ -12,7 +12,7 @@ import '../q_support/pairs.dart';
 import 'track_context_object.dart';
 import 'track_qhsm_scheme.dart';
 
-class Mediator extends IMediator {
+class TrackMediator extends IMediator {
 
 	final Map <int,String>	hashTable	= <int, String>{};
 	final ILogger?	_logger;
@@ -24,7 +24,7 @@ class Mediator extends IMediator {
 
 	final Queue<QEvent> _queue = Queue<QEvent>();
 
-	Mediator(this._context, this._interceptor, this._logger) {
+	TrackMediator(this._context, this._interceptor, this._logger) {
 		_context.setMediator(this);
 		createTable	();
 		createCommands	();
@@ -36,53 +36,53 @@ class Mediator extends IMediator {
 		hashTable[QHsm.	Q_INIT_SIG	] = "Q_INIT";
 		hashTable[QHsm.	Q_ENTRY_SIG	] = "Q_ENTRY";
 		hashTable[QHsm.	Q_EXIT_SIG	] = "Q_EXIT";
-		hashTable[QHsmScheme.	TERMINATE	] = "TERMINATE";
-		hashTable[QHsmScheme.	TouchDown	] = "TouchDown";
-		hashTable[QHsmScheme.	TouchUp	] = "TouchUp";
-		hashTable[QHsmScheme.	TouchMove	] = "TouchMove";
-		hashTable[QHsmScheme.	Timeout	] = "Timeout";
-		hashTable[QHsmScheme.	Reset	] = "Reset";
-		hashTable[QHsmScheme.	MoveStart	] = "MoveStart";
-		hashTable[QHsmScheme.	INIT_SIG	] = "INIT";
+		hashTable[TrackQHsmScheme.	TERMINATE	] = "TERMINATE";
+		hashTable[TrackQHsmScheme.	TouchDown	] = "TouchDown";
+		hashTable[TrackQHsmScheme.	TouchUp	] = "TouchUp";
+		hashTable[TrackQHsmScheme.	TouchMove	] = "TouchMove";
+		hashTable[TrackQHsmScheme.	Timeout	] = "Timeout";
+		hashTable[TrackQHsmScheme.	Reset	] = "Reset";
+		hashTable[TrackQHsmScheme.	MoveStart	] = "MoveStart";
+		hashTable[TrackQHsmScheme.	INIT_SIG	] = "INIT";
 	}
 
 	void createConnector() {
-		_connector.add(TrackContextObject.	TERMINATE,	QHsmScheme.TERMINATE);
-		_connector.add(TrackContextObject.	TouchDown,	QHsmScheme.TouchDown);
-		_connector.add(TrackContextObject.	TouchUp,	QHsmScheme.TouchUp);
-		_connector.add(TrackContextObject.	TouchMove,	QHsmScheme.TouchMove);
-		_connector.add(TrackContextObject.	Timeout,	QHsmScheme.Timeout);
-		_connector.add(TrackContextObject.	Reset,	QHsmScheme.Reset);
-		_connector.add(TrackContextObject.	MoveStart,	QHsmScheme.MoveStart);
-		_connector.add(TrackContextObject.	INIT_IsDone,	QHsmScheme.INIT_SIG);
+		_connector.add(TrackContextObject.	TERMINATE,	TrackQHsmScheme.TERMINATE);
+		_connector.add(TrackContextObject.	TouchDown,	TrackQHsmScheme.TouchDown);
+		_connector.add(TrackContextObject.	TouchUp,	TrackQHsmScheme.TouchUp);
+		_connector.add(TrackContextObject.	TouchMove,	TrackQHsmScheme.TouchMove);
+		_connector.add(TrackContextObject.	Timeout,	TrackQHsmScheme.Timeout);
+		_connector.add(TrackContextObject.	Reset,	TrackQHsmScheme.Reset);
+		_connector.add(TrackContextObject.	MoveStart,	TrackQHsmScheme.MoveStart);
+		_connector.add(TrackContextObject.	INIT_IsDone,	TrackQHsmScheme.INIT_SIG);
 	}
 
 	void	createCommands() {
-		_commands.add("top",	QHsmScheme.INIT_SIG,  initTop);
+		_commands.add("top",	TrackQHsmScheme.INIT_SIG,  initTop);
 
 		_commands.add("IdleState",	QHsm.Q_ENTRY_SIG,	IdleEntry);
 		_commands.add("IdleState",	QHsm.Q_EXIT_SIG,	IdleExit);
-		_commands.add("IdleState",	QHsmScheme.TouchDown,	IdleTouchDown);
-		_commands.add("IdleState",	QHsmScheme.TouchUp,	IdleTouchUp);
-		_commands.add("IdleState",	QHsmScheme.Reset,	IdleReset);
+		_commands.add("IdleState",	TrackQHsmScheme.TouchDown,	IdleTouchDown);
+		_commands.add("IdleState",	TrackQHsmScheme.TouchUp,	IdleTouchUp);
+		_commands.add("IdleState",	TrackQHsmScheme.Reset,	IdleReset);
 
 		_commands.add("InsideDownState",	QHsm.Q_ENTRY_SIG,	InsideDownEntry);
 		_commands.add("InsideDownState",	QHsm.Q_EXIT_SIG,	InsideDownExit);
-		_commands.add("InsideDownState",	QHsmScheme.TouchMove,	InsideDownTouchMove);
-		_commands.add("InsideDownState",	QHsmScheme.TouchUp,	InsideDownTouchUp);
-		_commands.add("InsideDownState",	QHsmScheme.Timeout,	InsideDownTimeout);
+		_commands.add("InsideDownState",	TrackQHsmScheme.TouchMove,	InsideDownTouchMove);
+		_commands.add("InsideDownState",	TrackQHsmScheme.TouchUp,	InsideDownTouchUp);
+		_commands.add("InsideDownState",	TrackQHsmScheme.Timeout,	InsideDownTimeout);
 
 		_commands.add("MovingState",	QHsm.Q_ENTRY_SIG,	MovingEntry);
 		_commands.add("MovingState",	QHsm.Q_EXIT_SIG,	MovingExit);
-		_commands.add("MovingState",	QHsmScheme.TouchUp,	MovingTouchUp);
-		_commands.add("MovingState",	QHsmScheme.TouchMove,	MovingTouchMove);
+		_commands.add("MovingState",	TrackQHsmScheme.TouchUp,	MovingTouchUp);
+		_commands.add("MovingState",	TrackQHsmScheme.TouchMove,	MovingTouchMove);
 
 		_commands.add("CheckMoveState",	QHsm.Q_ENTRY_SIG,	CheckMoveEntry);
 		_commands.add("CheckMoveState",	QHsm.Q_EXIT_SIG,	CheckMoveExit);
-		_commands.add("CheckMoveState",	QHsmScheme.MoveStart,	CheckMoveMoveStart);
-		_commands.add("CheckMoveState",	QHsmScheme.TouchUp,	CheckMoveTouchUp);
-		_commands.add("CheckMoveState",	QHsmScheme.Timeout,	CheckMoveTimeout);
-		_commands.add("CheckMoveState",	QHsmScheme.TouchMove,	CheckMoveTouchMove);
+		_commands.add("CheckMoveState",	TrackQHsmScheme.MoveStart,	CheckMoveMoveStart);
+		_commands.add("CheckMoveState",	TrackQHsmScheme.TouchUp,	CheckMoveTouchUp);
+		_commands.add("CheckMoveState",	TrackQHsmScheme.Timeout,	CheckMoveTimeout);
+		_commands.add("CheckMoveState",	TrackQHsmScheme.TouchMove,	CheckMoveTouchMove);
 	}
 
 	/*bool*/ initTop(int signal, int ticket) {

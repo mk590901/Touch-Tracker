@@ -3,7 +3,7 @@ import '../q_hsm_core/q_hsm.dart';
 import '../q_hsm_core/q_state.dart';
 import '../q_interfaces/i_mediator.dart';
 
-class QHsmScheme extends QHsm {
+class TrackQHsmScheme extends QHsm {
 	static const TERMINATE	= QHsm.Q_USER_SIG;
 	static const TouchDown	= QHsm.Q_USER_SIG + 1;
 	static const TouchUp	= QHsm.Q_USER_SIG + 2;
@@ -15,7 +15,7 @@ class QHsmScheme extends QHsm {
 
 	final IMediator?	mediator_;
 
-	QHsmScheme(this.mediator_);
+	TrackQHsmScheme(this.mediator_);
 
 	QState?	GestureTrackState	(QEvent e){
 		switch (e.sig) {
@@ -34,7 +34,7 @@ class QHsmScheme extends QHsm {
 	}
 
 	void init(QEvent e)	{
-		mediator_?.execute("top", QHsmScheme.INIT_SIG);
+		mediator_?.execute("top", TrackQHsmScheme.INIT_SIG);
 		super.init_tran(GestureTrackState);
 	}
 
@@ -47,15 +47,15 @@ class QHsmScheme extends QHsm {
 				mediator_?.execute("Idle", QHsm.Q_EXIT_SIG, e.ticket);
 				return	null;
 			case TouchDown:
-				mediator_?.execute("Idle", QHsmScheme.TouchDown, e.ticket);
+				mediator_?.execute("Idle", TrackQHsmScheme.TouchDown, e.ticket);
 				Q_TRAN(InsideDownState);
 				return	null;
 			case TouchUp:
-				mediator_?.execute("Idle", QHsmScheme.TouchUp, e.ticket);
+				mediator_?.execute("Idle", TrackQHsmScheme.TouchUp, e.ticket);
 				Q_TRAN(GestureTrackState);
 				return	null;
 			case Reset:
-				mediator_?.execute("Idle", QHsmScheme.Reset, e.ticket);
+				mediator_?.execute("Idle", TrackQHsmScheme.Reset, e.ticket);
 				Q_TRAN(GestureTrackState);
 				return	null;
 		}
@@ -71,15 +71,15 @@ class QHsmScheme extends QHsm {
 				mediator_?.execute("InsideDown", QHsm.Q_EXIT_SIG, e.ticket);
 				return	null;
 			case TouchMove:
-				mediator_?.execute("InsideDown", QHsmScheme.TouchMove, e.ticket);
+				mediator_?.execute("InsideDown", TrackQHsmScheme.TouchMove, e.ticket);
 				Q_TRAN(CheckMoveState);
 				return	null;
 			case TouchUp:
-				mediator_?.execute("InsideDown", QHsmScheme.TouchUp, e.ticket);
+				mediator_?.execute("InsideDown", TrackQHsmScheme.TouchUp, e.ticket);
 				Q_TRAN(GestureTrackState);
 				return	null;
 			case Timeout:
-				mediator_?.execute("InsideDown", QHsmScheme.Timeout, e.ticket);
+				mediator_?.execute("InsideDown", TrackQHsmScheme.Timeout, e.ticket);
 				Q_TRAN(GestureTrackState);
 				return	null;
 		}
@@ -95,11 +95,11 @@ class QHsmScheme extends QHsm {
 				mediator_?.execute("Moving", QHsm.Q_EXIT_SIG, e.ticket);
 				return	null;
 			case TouchUp:
-				mediator_?.execute("Moving", QHsmScheme.TouchUp, e.ticket);
+				mediator_?.execute("Moving", TrackQHsmScheme.TouchUp, e.ticket);
 				Q_TRAN(GestureTrackState);
 				return	null;
 			case TouchMove:
-				mediator_?.execute("Moving", QHsmScheme.TouchMove, e.ticket);
+				mediator_?.execute("Moving", TrackQHsmScheme.TouchMove, e.ticket);
 				Q_TRAN(MovingState);
 				return	null;
 		}
@@ -115,19 +115,19 @@ class QHsmScheme extends QHsm {
 				mediator_?.execute("CheckMove", QHsm.Q_EXIT_SIG, e.ticket);
 				return	null;
 			case MoveStart:
-				mediator_?.execute("CheckMove", QHsmScheme.MoveStart, e.ticket);
+				mediator_?.execute("CheckMove", TrackQHsmScheme.MoveStart, e.ticket);
 				Q_TRAN(MovingState);
 				return	null;
 			case TouchUp:
-				mediator_?.execute("CheckMove", QHsmScheme.TouchUp, e.ticket);
+				mediator_?.execute("CheckMove", TrackQHsmScheme.TouchUp, e.ticket);
 				Q_TRAN(GestureTrackState);
 				return	null;
 			case Timeout:
-				mediator_?.execute("CheckMove", QHsmScheme.Timeout, e.ticket);
+				mediator_?.execute("CheckMove", TrackQHsmScheme.Timeout, e.ticket);
 				Q_TRAN(GestureTrackState);
 				return	null;
 			case TouchMove:
-				mediator_?.execute("CheckMove", QHsmScheme.TouchMove, e.ticket);
+				mediator_?.execute("CheckMove", TrackQHsmScheme.TouchMove, e.ticket);
 				Q_TRAN(CheckMoveState);
 				return	null;
 		}

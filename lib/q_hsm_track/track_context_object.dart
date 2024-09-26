@@ -1,11 +1,23 @@
+import 'dart:math';
+
+import '../helpers/DirectionHelper.dart';
+import '../helpers/velocity_helper.dart';
 import '../q_interfaces/i_logger.dart';
 import '../q_interfaces/i_mediator.dart';
 import '../q_interfaces/i_object.dart';
 import '../q_support/object_event.dart';
+import '../q_support/tracker.dart';
+import '../timer_objects/time_machine.dart';
 
 class TrackContextObject implements IObject {
 	IMediator? _mediator;
-	ILogger? _logger;
+	final ILogger? _logger;
+	final int _pointer;
+
+	final TimeMachine? _timeMachine    = TimeMachine();
+
+	final VelocityHelper    _velocityHelper = VelocityHelper  (8);
+	final DirectionHelper   _directionHelper= DirectionHelper (8);
 
 	static final int  APP_START_ENUM  = 1;
 	static final int  TERMINATE       = APP_START_ENUM;
@@ -16,6 +28,10 @@ class TrackContextObject implements IObject {
 	static final int  MoveStart       = APP_START_ENUM + 5;
 	static final int  Reset           = APP_START_ENUM + 6;
 	static final int  INIT_IsDone     = APP_START_ENUM + 7;
+
+	TrackContextObject(this._pointer, [this._logger]); /*{
+		_timeMachine  = TimeMachine();
+	}*/
 
 	bool onInitTop(Object? data) {
 		bool result = false;
@@ -207,5 +223,37 @@ class TrackContextObject implements IObject {
   void setMediator(IMediator mediator) {
 		_mediator = mediator;
   }
+
+	@override
+	void doneInside(ObjectEvent signal) {
+		//print('done.signal->[${signal.event()}]');
+		_mediator!.objDoneInside(signal.event(), signal.data()!);
+	}
+
+	void moveInit(int time, double x, double y) {
+		_velocityHelper .init(time, x, y);
+		_directionHelper.init(x, y);
+	}
+
+	void moveDone(int time, double x, double y, Tracker tracker) {
+		double average = _velocityHelper .velocity(time, x, y);
+		if (average >= 0.01) {
+			tracker.setCurrentPoint(Point<double>(x.round().toDouble(),y.round().toDouble()));
+		}
+		_directionHelper.direction(x, y);
+//    Offset a = _directionHelper.average();
+//    if (a != null)
+//    {
+//    //  _tracker.onTryToRecognizeGesture(_pointer, a, _gesture);
+//      print ('direction->(${v.dx},${v.dy})->(${a.dx},${a.dy})');
+//    }
+	}
+
+	void moveStop() {
+		_velocityHelper .reset();
+		_directionHelper.reset();
+	}
+
+
 }
 
