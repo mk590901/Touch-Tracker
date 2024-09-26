@@ -33,11 +33,11 @@ class Interceptor {
   }
 
   Object? getObject(int? ticket) {
-    Object? result = null;
-    if (!_container!.containsKey(ticket)) return result;
+    Object? result;
+    if (ticket == null || !_container!.containsKey(ticket)) {
+      return result;
+    }
     result = _container![ticket];
-    //  _container.remove(ticket);
-    //  _logger.trace('getObject[$ticket]->[$result]');
     return result;
   }
 
@@ -46,7 +46,7 @@ class Interceptor {
       _container!.remove(ticket);
       return;
     }
-    if (_container!.length > 0) _container!.clear();
+    if (_container!.isNotEmpty) _container!.clear();
   }
 
   int getUniqueId() {

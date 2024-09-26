@@ -40,12 +40,12 @@ class Tracker {
   }
 
   void done(ObjectEvent event) {
+    print ('tracker done');
     contextObject.done(event);
   }
 
   void doneInside(ObjectEvent event) {
     contextObject.doneInside(event);
-    //print ('tracker done is doneInside');
   }
 
   void init(int time, double x, double y) {
@@ -54,7 +54,7 @@ class Tracker {
   }
 
   void update(int time, double x, double y) {
-    //print ('tracker update is done');
+    print ('tracker update is done');
     contextObject.moveDone(time, x, y, this);
   }
 

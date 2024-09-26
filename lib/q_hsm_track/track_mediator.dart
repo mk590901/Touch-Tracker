@@ -85,127 +85,129 @@ class TrackMediator extends IMediator {
 		_commands.add("CheckMoveState",	TrackQHsmScheme.TouchMove,	CheckMoveTouchMove);
 	}
 
-	/*bool*/ initTop(int signal, int ticket) {
+	bool initTop(int signal, int? ticket) {
+		print ('initTop ');
 		Object? value = _interceptor.getObject(ticket);
 		bool result = _context.onInitTop(value);
 		return result;
 	}
 
-	IdleEntry(int signal, int ticket) {
+	bool IdleEntry(int signal, int? ticket) {
+		print ('IdleEntry ');
 		Object? value = _interceptor.getObject(ticket);
 		bool result = _context.onIdleEntry(value);
 		return result;
 	}
 
-	IdleExit(int signal, int ticket) {
+	bool IdleExit(int signal, int? ticket) {
 		Object? value = _interceptor.getObject(ticket);
 		bool result = _context.onIdleExit(value);
 		return result;
 	}
 
-	IdleTouchDown(int signal, int ticket) {
+	bool IdleTouchDown(int signal, int? ticket) {
 		Object? value = _interceptor.getObject(ticket);
 		bool result = _context.onIdleTouchDown(value);
 		return result;
 	}
 
-	IdleTouchUp(int signal, int ticket) {
+	bool IdleTouchUp(int signal, int? ticket) {
 		Object? value = _interceptor.getObject(ticket);
 		bool result = _context.onIdleTouchUp(value);
 		return result;
 	}
 
-	IdleReset(int signal, int ticket) {
+	bool IdleReset(int signal, int? ticket) {
 		Object? value = _interceptor.getObject(ticket);
 		bool result = _context.onIdleReset(value);
 		return result;
 	}
 
-	InsideDownEntry(int signal, int ticket) {
+	bool InsideDownEntry(int signal, int? ticket) {
 		Object? value = _interceptor.getObject(ticket);
 		bool result = _context.onInsideDownEntry(value);
 		return result;
 	}
 
-	InsideDownExit(int signal, int ticket) {
+	bool InsideDownExit(int signal, int? ticket) {
 		Object? value = _interceptor.getObject(ticket);
 		bool result = _context.onInsideDownExit(value);
 		return result;
 	}
 
-	InsideDownTouchMove(int signal, int ticket) {
+	bool InsideDownTouchMove(int signal, int? ticket) {
 		Object? value = _interceptor.getObject(ticket);
 		bool result = _context.onInsideDownTouchMove(value);
 		return result;
 	}
 
-	InsideDownTouchUp(int signal, int ticket) {
+	bool InsideDownTouchUp(int signal, int? ticket) {
 		Object? value = _interceptor.getObject(ticket);
 		bool result = _context.onInsideDownTouchUp(value);
 		return result;
 	}
 
-	InsideDownTimeout(int signal, int ticket) {
+	bool InsideDownTimeout(int signal, int? ticket) {
 		Object? value = _interceptor.getObject(ticket);
 		bool result = _context.onInsideDownTimeout(value);
 		return result;
 	}
 
-	MovingEntry(int signal, int ticket) {
+	bool MovingEntry(int signal, int? ticket) {
 		Object? value = _interceptor.getObject(ticket);
 		bool result = _context.onMovingEntry(value);
 		return result;
 	}
 
-	MovingExit(int signal, int ticket) {
+	bool MovingExit(int signal, int? ticket) {
 		Object? value = _interceptor.getObject(ticket);
 		bool result = _context.onMovingExit(value);
 		return result;
 	}
 
-	MovingTouchUp(int signal, int ticket) {
+	bool MovingTouchUp(int signal, int? ticket) {
 		Object? value = _interceptor.getObject(ticket);
 		bool result = _context.onMovingTouchUp(value);
 		return result;
 	}
 
-	MovingTouchMove(int signal, int ticket) {
+	bool MovingTouchMove(int signal, int? ticket) {
 		Object? value = _interceptor.getObject(ticket);
 		bool result = _context.onMovingTouchMove(value);
 		return result;
 	}
 
-	CheckMoveEntry(int signal, int ticket) {
+	bool CheckMoveEntry(int signal, int? ticket) {
 		Object? value = _interceptor.getObject(ticket);
 		bool result = _context.onCheckMoveEntry(value);
 		return result;
 	}
 
-	CheckMoveExit(int signal, int ticket) {
+	bool CheckMoveExit(int signal, int? ticket) {
 		Object? value = _interceptor.getObject(ticket);
 		bool result = _context.onCheckMoveExit(value);
 		return result;
 	}
 
-	CheckMoveMoveStart(int signal, int ticket) {
+	bool CheckMoveMoveStart(int signal, int? ticket) {
 		Object? value = _interceptor.getObject(ticket);
 		bool result = _context.onCheckMoveMoveStart(value);
 		return result;
 	}
 
-	CheckMoveTouchUp(int signal, int ticket) {
+	bool CheckMoveTouchUp(int signal, int? ticket) {
 		Object? value = _interceptor.getObject(ticket);
 		bool result = _context.onCheckMoveTouchUp(value);
 		return result;
 	}
 
-	CheckMoveTimeout(int signal, int ticket) {
+	bool CheckMoveTimeout(int signal, int? ticket) {
 		Object? value = _interceptor.getObject(ticket);
 		bool result = _context.onCheckMoveTimeout(value);
 		return result;
 	}
 
-	CheckMoveTouchMove(int signal, int ticket) {
+	bool CheckMoveTouchMove(int signal, int? ticket) {
 		Object? value = _interceptor.getObject(ticket);
 		bool result = _context.onCheckMoveTouchMove(value);
 		return result;
@@ -213,15 +215,27 @@ class TrackMediator extends IMediator {
 
   @override
   void execute(String? state, int signal, [int? data]) {
+
+		//print('execute.1 $state : $signal : $data');
+
 		dynamic command = _commands.get(state!, signal);
+		//print('execute.2 $state : $signal : $data -> $command');
 		if (command == null) {
-			Object? dataObject = _interceptor.getObject(data!);
+			Object? dataObject = _interceptor.getObject(data);
+			//print('execute.3 dataObject->$dataObject');
 			if (dataObject == null) {
+				//print('execute.4');
 				_logger?.trace('$state-${getEventId(signal)}');
-			} else {
+
+				//print('${_logger?.toString()}');
+			}
+			else {
+				print('execute.5');
 				_logger?.trace('$state-${getEventId(signal)}[$dataObject]');
 			}
-		} else if (command != null) {
+		}
+		else {
+			print('execute.6 $signal $data');
 			command(signal, data);
 		}
 	}
@@ -244,9 +258,9 @@ class TrackMediator extends IMediator {
   @override
   void init() {
 		scheduleMicrotask(() {
-			//_logger?.clear('[INIT]: ');
+				_logger?.clear('[INIT]: ');
 			_hsm?.init();
-			//_logger?.printTrace();
+				_logger?.printTrace();
 		});
   }
 
@@ -256,6 +270,7 @@ class TrackMediator extends IMediator {
 
 	@override
   void objDone(int signal, Object? data) {
+
 		int hsmEvt = eventObj2Hsm(signal);
 		int dataId = _interceptor.putObject(data);
 		QEvent e = QEvent(hsmEvt, dataId);
@@ -263,9 +278,10 @@ class TrackMediator extends IMediator {
 			while (_queue.isNotEmpty) {
 				QEvent event = _queue.removeFirst();
 				String?  eventText = getEventId(event.sig);
-				//_logger?.clear('TrackMediator.objDone.[$eventText]: ');
+				print ('eventText->$eventText');
+					_logger?.clear('TrackMediator.objDone.[$eventText]: ');
 				_hsm!.dispatch(event);
-				//_logger?.printTrace();
+					_logger?.printTrace();
 				_interceptor.clear(event.ticket);
 			}
 		});
@@ -283,11 +299,10 @@ class TrackMediator extends IMediator {
 		scheduleMicrotask(() {
 			while (_queue.isNotEmpty) {
 				QEvent event = _queue.removeFirst();
-				//String?  eventText = getEventId(event.sig);
-				//_logger.clear('[$eventText]: ');
+				String?  eventText = getEventId(event.sig);
+					_logger?.clear('[$eventText]: ');
 				_hsm?.dispatch(event);
-				//_logger.printTrace();
-				//_logger.printTraceW();
+					_logger?.printTrace();
 				_interceptor.clear(event.ticket);
 			}
 		});

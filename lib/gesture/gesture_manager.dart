@@ -16,9 +16,9 @@ class GestureManager {
   static GestureManager? _instance;
 
 //  State machine attributes
-  ILogger? logger;
-  ILogger? contextLogger;
-  Interceptor? interceptor;
+  //ILogger? logger;
+  //ILogger? contextLogger;
+  //Interceptor? interceptor;
   //GestureManagerContextObject? contextObject;
   //GestureManagerMediator? mediator;
   //GestureManagerQHsmScheme? scheme;
@@ -64,9 +64,13 @@ class GestureManager {
     return _container.trackers();
   }
 
-  void doSomething() {
-    print("Do something...");
+  int listenersNumber() {
+    return _listeners.size();
   }
+
+  // void doSomething() {
+  //   print("Do something...");
+  // }
 
 //  Main functions
   void onDown(int timeStampInMs, int key, Point<double> position) {
@@ -75,7 +79,7 @@ class GestureManager {
       _container.clear();
       //return;
     }
-    _container.register(key, Tracker(/*this,*/ key));
+    _container.register(key, Tracker(key));
     Tracker? tracker = _container.get(key);
     if (tracker == null) {
       print("onDown: Failed to get tracker [$key]");
@@ -144,9 +148,9 @@ class GestureManager {
   }
 
   void _initStateMachine() {
-    logger = Logger();
-    contextLogger = Logger();
-    interceptor = Interceptor(logger!);
+    //logger = Logger();
+    //contextLogger = Logger();
+    //interceptor = Interceptor(logger!);
     // contextObject = GestureManagerContextObject(contextLogger);
     // mediator =
     //     GestureManagerMediator(contextObject!, interceptor!, contextLogger!);
