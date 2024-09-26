@@ -1,0 +1,71 @@
+
+import '../q_interfaces/i_logger.dart';
+
+class Interceptor {
+  Map<int, Object>? _container = null;
+  ILogger? _logger = null;
+  static final int INVALID_TICKET = -1;
+
+  Interceptor(ILogger logger) {
+    _logger = logger;
+    createTable();
+  }
+
+  void createTable() {
+    _container = <int, Object>{};
+  }
+
+  int putObject(Object? object) {
+    int result = INVALID_TICKET;
+    if (object == null) return result;
+//    if (_container.length > 0)
+//      _container.clear()
+//    ;
+    result = getUniqueId();
+    if (result == INVALID_TICKET) return result;
+    if (_container!.containsKey(result)) {
+      result = INVALID_TICKET;
+      return result;
+    }
+    _container![result] = object;
+    //  _logger.trace('putObject[$object]->[$result]');
+    return result;
+  }
+
+  Object? getObject(int? ticket) {
+    Object? result = null;
+    if (!_container!.containsKey(ticket)) return result;
+    result = _container![ticket];
+    //  _container.remove(ticket);
+    //  _logger.trace('getObject[$ticket]->[$result]');
+    return result;
+  }
+
+  void clear([int? ticket]) {
+    if (ticket != null) {
+      _container!.remove(ticket);
+      return;
+    }
+    if (_container!.length > 0) _container!.clear();
+  }
+
+  int getUniqueId() {
+    int result = INVALID_TICKET;
+    int counter = 1;
+    while (true) {
+      bool duplication = checkId(counter);
+      if (!duplication) {
+        result = counter;
+        break;
+      }
+      ++counter;
+    }
+    return result;
+  }
+
+  bool checkId(int id) {
+    bool result = false;
+    result = _container!.containsKey(id);
+    return result;
+  }
+}
