@@ -230,12 +230,12 @@ class TrackMediator extends IMediator {
 				//print('${_logger?.toString()}');
 			}
 			else {
-				print('execute.5');
+				//print('execute.5');
 				_logger?.trace('$state-${getEventId(signal)}[$dataObject]');
 			}
 		}
 		else {
-			print('execute.6 $signal $data');
+			//print('execute.6 $signal $data');
 			command(signal, data);
 		}
 	}
@@ -274,13 +274,14 @@ class TrackMediator extends IMediator {
 		int hsmEvt = eventObj2Hsm(signal);
 		int dataId = _interceptor.putObject(data);
 		QEvent e = QEvent(hsmEvt, dataId);
+		_queue.add(e);
 		scheduleMicrotask(() {
 			while (_queue.isNotEmpty) {
 				QEvent event = _queue.removeFirst();
 				String?  eventText = getEventId(event.sig);
 				print ('eventText->$eventText');
 					_logger?.clear('TrackMediator.objDone.[$eventText]: ');
-				_hsm!.dispatch(event);
+				_hsm?.dispatch(event);
 					_logger?.printTrace();
 				_interceptor.clear(event.ticket);
 			}

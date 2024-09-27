@@ -126,9 +126,15 @@ class TrackContextObject implements IObject {
 
 	bool onInsideDownTouchUp(Object? data) {
 		bool result = false;
+
+		print('******* onInsideDownTouchUp *******');
+
 		_logger?.trace(data == null
 				? 'InsideDown-QHsmScheme.TouchUp'
 				: 'InsideDown-QHsmScheme.TouchUp[$data]');
+
+		_timeMachine.delete(_timer);
+		GestureManager.manager()!.eventTap(_pointer, _downPoint!);
 		return result;
 	}
 
@@ -259,7 +265,8 @@ class TrackContextObject implements IObject {
 
   @override
   void done(ObjectEvent signal) {
-		_mediator?.objDone(signal.event(), signal.data()!);
+		print('TrackContextObject.done->[${signal.event()} : ${signal.data()}]');
+		_mediator?.objDone(signal.event(), signal.data());
 	}
 
   @override

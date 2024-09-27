@@ -161,6 +161,9 @@ class GestureManager {
   }
 
   void eventTap(int pointer, Point<double> point) {
+
+    print('GestureManager.eventTap->[$pointer : $point]') ;
+
     Map<int,IGestureListener> map = _listeners.clone();
     map.forEach((k, listener) {
       listener.onTap(pointer, point);

@@ -30,22 +30,28 @@ void main() {
 
   test('widget actions', () async {
     MockWidget widget = MockWidget();
+
+  //  Touch down -> register & touch down
     widget.onDown(123450, const Point<double>(10,10));
 
     Tracker? tracker = GestureManager.manager()?.tracker(1);
     expect(tracker, isNotNull);
 
-    widget.onMove(123451, const Point<double>(11,11));
-    widget.onMove(123452, const Point<double>(12,12));
     widget.onUp(123453, const Point<double>(12,12));
+
+
+    // widget.onMove(123451, const Point<double>(11,11));
+    // widget.onMove(123452, const Point<double>(12,12));
+    // widget.onUp(123453, const Point<double>(12,12));
 
     //widget.unregister();
 
 
     //getLogger().
+
     await Future.delayed(const Duration(seconds: 2));
 
-    widget.unregister();
+    //widget.unregister();
 
   });
 

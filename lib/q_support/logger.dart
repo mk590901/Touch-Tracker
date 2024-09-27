@@ -20,7 +20,7 @@ class Logger implements ILogger {
     String result = "";
     for (int i = 0; i < _logger.length; i++) {
       result += _logger[i] +
-          ((/*i == 0 ||*/ i == (_logger.length - 1)) ? "" : ";"); //";";
+          ((i == (_logger.length - 1)) ? "" : " ");
     }
     return result;
   }

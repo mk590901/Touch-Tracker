@@ -1,7 +1,5 @@
 
 import 'dart:math';
-
-import '../gesture/gesture_manager.dart';
 import '../q_hsm_track/track_context_object.dart';
 import '../q_hsm_track/track_hsm_wrapper.dart';
 import '../q_hsm_track/track_mediator.dart';
@@ -26,11 +24,11 @@ class Tracker {
   final int           _pointer;
   Point<double>?      _currentPoint;
 
-  Tracker(/*this._manager,*/ this._pointer) {
+  Tracker(this._pointer) {
     logger        = Logger();
     contextLogger = Logger();
     interceptor   = Interceptor(logger!);
-    contextObject = TrackContextObject(_pointer, /*contextLogger*/);
+    contextObject = TrackContextObject(_pointer, contextLogger);
     mediator      = TrackMediator(contextObject, interceptor!, contextLogger!);
     scheme        = TrackQHsmScheme(mediator!);
     schemeWrapper = TrackHsmWrapper(scheme!, mediator!);
@@ -40,7 +38,7 @@ class Tracker {
   }
 
   void done(ObjectEvent event) {
-    print ('tracker done ${event.event()}:${event.data()}');
+    print ('tracker done ${event.event()} : ${event.data()}');
     contextObject.done(event);
   }
 
