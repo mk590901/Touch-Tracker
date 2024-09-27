@@ -60,82 +60,89 @@ class TrackMediator extends IMediator {
 	void	createCommands() {
 		_commands.add("top",	TrackQHsmScheme.INIT_SIG,  initTop);
 
-		_commands.add("IdleState",	QHsm.Q_ENTRY_SIG,	IdleEntry);
-		_commands.add("IdleState",	QHsm.Q_EXIT_SIG,	IdleExit);
-		_commands.add("IdleState",	TrackQHsmScheme.TouchDown,	IdleTouchDown);
-		_commands.add("IdleState",	TrackQHsmScheme.TouchUp,	IdleTouchUp);
-		_commands.add("IdleState",	TrackQHsmScheme.Reset,	IdleReset);
+		_commands.add("Idle",	QHsm.Q_ENTRY_SIG,	IdleEntry);
+		_commands.add("Idle",	QHsm.Q_EXIT_SIG,	IdleExit);
+		_commands.add("Idle",	TrackQHsmScheme.TouchDown,	IdleTouchDown);
+		_commands.add("Idle",	TrackQHsmScheme.TouchUp,	IdleTouchUp);
+		_commands.add("Idle",	TrackQHsmScheme.Reset,	IdleReset);
 
-		_commands.add("InsideDownState",	QHsm.Q_ENTRY_SIG,	InsideDownEntry);
-		_commands.add("InsideDownState",	QHsm.Q_EXIT_SIG,	InsideDownExit);
-		_commands.add("InsideDownState",	TrackQHsmScheme.TouchMove,	InsideDownTouchMove);
-		_commands.add("InsideDownState",	TrackQHsmScheme.TouchUp,	InsideDownTouchUp);
-		_commands.add("InsideDownState",	TrackQHsmScheme.Timeout,	InsideDownTimeout);
+		_commands.add("InsideDown",	QHsm.Q_ENTRY_SIG,	InsideDownEntry);
+		_commands.add("InsideDown",	QHsm.Q_EXIT_SIG,	InsideDownExit);
+		_commands.add("InsideDown",	TrackQHsmScheme.TouchMove,	InsideDownTouchMove);
+		_commands.add("InsideDown",	TrackQHsmScheme.TouchUp,	InsideDownTouchUp);
+		_commands.add("InsideDown",	TrackQHsmScheme.Timeout,	InsideDownTimeout);
 
-		_commands.add("MovingState",	QHsm.Q_ENTRY_SIG,	MovingEntry);
-		_commands.add("MovingState",	QHsm.Q_EXIT_SIG,	MovingExit);
-		_commands.add("MovingState",	TrackQHsmScheme.TouchUp,	MovingTouchUp);
-		_commands.add("MovingState",	TrackQHsmScheme.TouchMove,	MovingTouchMove);
+		_commands.add("Moving",	QHsm.Q_ENTRY_SIG,	MovingEntry);
+		_commands.add("Moving",	QHsm.Q_EXIT_SIG,	MovingExit);
+		_commands.add("Moving",	TrackQHsmScheme.TouchUp,	MovingTouchUp);
+		_commands.add("Moving",	TrackQHsmScheme.TouchMove,	MovingTouchMove);
 
-		_commands.add("CheckMoveState",	QHsm.Q_ENTRY_SIG,	CheckMoveEntry);
-		_commands.add("CheckMoveState",	QHsm.Q_EXIT_SIG,	CheckMoveExit);
-		_commands.add("CheckMoveState",	TrackQHsmScheme.MoveStart,	CheckMoveMoveStart);
-		_commands.add("CheckMoveState",	TrackQHsmScheme.TouchUp,	CheckMoveTouchUp);
-		_commands.add("CheckMoveState",	TrackQHsmScheme.Timeout,	CheckMoveTimeout);
-		_commands.add("CheckMoveState",	TrackQHsmScheme.TouchMove,	CheckMoveTouchMove);
+		_commands.add("CheckMove",	QHsm.Q_ENTRY_SIG,	CheckMoveEntry);
+		_commands.add("CheckMove",	QHsm.Q_EXIT_SIG,	CheckMoveExit);
+		_commands.add("CheckMove",	TrackQHsmScheme.MoveStart,	CheckMoveMoveStart);
+		_commands.add("CheckMove",	TrackQHsmScheme.TouchUp,	CheckMoveTouchUp);
+		_commands.add("CheckMove",	TrackQHsmScheme.Timeout,	CheckMoveTimeout);
+		_commands.add("CheckMove",	TrackQHsmScheme.TouchMove,	CheckMoveTouchMove);
 	}
 
 	bool initTop(int signal, int? ticket) {
-		print ('initTop ');
+		//print ('initTop ');
 		Object? value = _interceptor.getObject(ticket);
 		bool result = _context.onInitTop(value);
 		return result;
 	}
 
 	bool IdleEntry(int signal, int? ticket) {
-		print ('IdleEntry ');
+		//print ('IdleEntry ');
 		Object? value = _interceptor.getObject(ticket);
 		bool result = _context.onIdleEntry(value);
 		return result;
 	}
 
 	bool IdleExit(int signal, int? ticket) {
+		//print ('IdleExit ');
 		Object? value = _interceptor.getObject(ticket);
 		bool result = _context.onIdleExit(value);
 		return result;
 	}
 
 	bool IdleTouchDown(int signal, int? ticket) {
+		//print ('IdleTouchDown ');
 		Object? value = _interceptor.getObject(ticket);
 		bool result = _context.onIdleTouchDown(value);
 		return result;
 	}
 
 	bool IdleTouchUp(int signal, int? ticket) {
+		//print ('IdleTouchUp ');
 		Object? value = _interceptor.getObject(ticket);
 		bool result = _context.onIdleTouchUp(value);
 		return result;
 	}
 
 	bool IdleReset(int signal, int? ticket) {
+		//print ('IdleReset ');
 		Object? value = _interceptor.getObject(ticket);
 		bool result = _context.onIdleReset(value);
 		return result;
 	}
 
 	bool InsideDownEntry(int signal, int? ticket) {
+		//print ('InsideDownEntry ');
 		Object? value = _interceptor.getObject(ticket);
 		bool result = _context.onInsideDownEntry(value);
 		return result;
 	}
 
 	bool InsideDownExit(int signal, int? ticket) {
+		//print ('InsideDownExit ');
 		Object? value = _interceptor.getObject(ticket);
 		bool result = _context.onInsideDownExit(value);
 		return result;
 	}
 
 	bool InsideDownTouchMove(int signal, int? ticket) {
+		//print ('InsideDownTouchMove ');
 		Object? value = _interceptor.getObject(ticket);
 		bool result = _context.onInsideDownTouchMove(value);
 		return result;
@@ -216,10 +223,10 @@ class TrackMediator extends IMediator {
   @override
   void execute(String? state, int signal, [int? data]) {
 
-		//print('execute.1 $state : $signal : $data');
+		//print('execute $state : $signal : $data');
 
 		dynamic command = _commands.get(state!, signal);
-		//print('execute.2 $state : $signal : $data -> $command');
+		//print('execute.@ $state : $signal : $data -> $command');
 		if (command == null) {
 			Object? dataObject = _interceptor.getObject(data);
 			//print('execute.3 dataObject->$dataObject');
@@ -235,7 +242,7 @@ class TrackMediator extends IMediator {
 			}
 		}
 		else {
-			//print('execute.6 $signal $data');
+			//print('execute! $command ($signal $data)');
 			command(signal, data);
 		}
 	}
@@ -279,8 +286,8 @@ class TrackMediator extends IMediator {
 			while (_queue.isNotEmpty) {
 				QEvent event = _queue.removeFirst();
 				String?  eventText = getEventId(event.sig);
-				print ('eventText->$eventText');
-					_logger?.clear('TrackMediator.objDone.[$eventText]: ');
+				//print ('eventText->$eventText');
+					_logger?.clear('TrackMediator.objDone.[$eventText]');
 				_hsm?.dispatch(event);
 					_logger?.printTrace();
 				_interceptor.clear(event.ticket);

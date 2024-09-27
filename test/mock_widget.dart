@@ -1,7 +1,5 @@
 import 'dart:math';
-
 import 'dart:ui';
-
 import 'package:touch_track/gesture/gesture_manager.dart';
 import 'package:touch_track/gesture/gesture_observer.dart';
 import 'package:touch_track/gesture/gesture_type.dart';
@@ -40,12 +38,12 @@ class MockWidget implements IUpdate {
 
   @override
   void updateAndReset(GestureType type, [Object? object]) {
-    // TODO: implement updateAndReset
+    print('IUpdate.updateAndReset: [$type]:$object');
   }
 
   @override
   void updateMove(int pointer, ActionModifier actionModifier, Point<double> point) {
-    // TODO: implement updateMove
+    print('IUpdate.updateMove: [$actionModifier] $pointer $point');
   }
 
   @override

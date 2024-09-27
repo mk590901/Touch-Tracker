@@ -28,10 +28,26 @@ void main() {
     expect(0, GestureManager.manager()?.listenersNumber());
   });
 
-  test('widget actions', () async {
+  test('widget actions long press', () async {
     MockWidget widget = MockWidget();
 
   //  Touch down -> register & touch down
+    widget.onDown(123450, const Point<double>(10,10));
+
+    Tracker? tracker = GestureManager.manager()?.tracker(1);
+    expect(tracker, isNotNull);
+
+    await Future.delayed(const Duration(seconds: 2));
+
+    tracker = GestureManager.manager()?.tracker(1);
+    expect(tracker, isNull);
+
+  });
+
+  test('widget actions tap', () async {
+    MockWidget widget = MockWidget();
+
+    //  Touch down -> register & touch down
     widget.onDown(123450, const Point<double>(10,10));
 
     Tracker? tracker = GestureManager.manager()?.tracker(1);
@@ -50,6 +66,9 @@ void main() {
     //getLogger().
 
     await Future.delayed(const Duration(seconds: 2));
+
+    tracker = GestureManager.manager()?.tracker(1);
+    expect(tracker, isNull);
 
     //widget.unregister();
 

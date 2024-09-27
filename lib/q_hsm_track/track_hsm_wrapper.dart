@@ -14,7 +14,7 @@ class TrackHsmWrapper implements IHsm {
   TrackHsmWrapper(TrackQHsmScheme entity, IMediator mediator) {
     _entity = entity;
     _mediator = mediator;
-    _mediator!.setHsm(this);
+    _mediator?.setHsm(this);
   }
 
   @override
@@ -29,12 +29,12 @@ class TrackHsmWrapper implements IHsm {
 
   @override
   void init() {
-    _entity!.init(QEvent(TrackQHsmScheme.INIT_SIG));
+    _entity?.init(QEvent(TrackQHsmScheme.INIT_SIG));
   }
 
   @override
   void dispatch(QEvent event) {
-    _entity!.dispatch(event);
+    _entity?.dispatch(event);
   }
 
   @override

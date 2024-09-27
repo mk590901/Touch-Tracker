@@ -36,7 +36,9 @@ class Commands {
   dynamic get(String state, int signal) {
     dynamic result;
     String key = getKey(state, signal);
-    if (!_container.containsKey(key)) return result;
+    if (!_container.containsKey(key)) {
+      return result;
+    }
     result = _container[key];
     return result;
   }

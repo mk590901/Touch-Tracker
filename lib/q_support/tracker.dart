@@ -38,7 +38,7 @@ class Tracker {
   }
 
   void done(ObjectEvent event) {
-    print ('tracker done ${event.event()} : ${event.data()}');
+    //print ('tracker done ${event.event()} : ${event.data()}');
     contextObject.done(event);
   }
 
@@ -47,7 +47,7 @@ class Tracker {
   }
 
   void init(int time, double x, double y) {
-    print ('tracker init is done');
+    //print ('tracker init is done');
     contextObject.moveInit(time, x, y);
   }
 
