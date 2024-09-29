@@ -41,7 +41,15 @@ class MainAppPage extends StatelessWidget {
                 ),
               ],
             )),
-        backgroundColor: Colors.lightBlue,
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.blue, Colors.purple],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
         leading: IconButton(onPressed: () {},
             icon: const Icon(Icons.draw_outlined, color: Colors.white)),
       ),
