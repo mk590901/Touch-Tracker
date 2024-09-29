@@ -114,6 +114,8 @@ class DrawingBloc extends Bloc<DrawingEvent, SceneState> {
       /// disappear only when the taps and longPress containers are empty.
       int currentGestureType = event.gestureType;
 
+      debugPrint('currentGestureType->$currentGestureType');
+
       Taps? updatedTaps;
       if (event.gestureType == GestureType.TAP_.index) {
         updatedTaps = state.taps;
