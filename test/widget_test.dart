@@ -7,13 +7,9 @@
 
 import 'dart:math';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:touch_track/gesture/gesture_manager.dart';
 import 'package:touch_track/q_support/tracker.dart';
-
-//import 'package:touch_track/main.dart';
-
 import 'mock_widget.dart';
 
 void main() {
@@ -55,22 +51,10 @@ void main() {
 
     widget.onUp(123453, const Point<double>(12,12));
 
-
-    // widget.onMove(123451, const Point<double>(11,11));
-    // widget.onMove(123452, const Point<double>(12,12));
-    // widget.onUp(123453, const Point<double>(12,12));
-
-    //widget.unregister();
-
-
-    //getLogger().
-
     await Future.delayed(const Duration(seconds: 2));
 
     tracker = GestureManager.manager()?.tracker(1);
     expect(tracker, isNull);
-
-    //widget.unregister();
 
   });
 
