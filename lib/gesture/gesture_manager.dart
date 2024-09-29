@@ -97,13 +97,15 @@ class GestureManager {
     return _container.get(key);
   }
 
-  void onMove(int timeStampInMs, int key, Point<double> position) {
+  void onMove(int timeStampInMs, int key, Point<double> point) {
     Tracker? tracker = _container.get(key);
     if (tracker == null) {
       print("onMove: Failed to get tracker [$key]");
       return;
     }
-    tracker.update(timeStampInMs, position.x, position.y);
+    tracker.update(timeStampInMs, point.x, point.y);
+    
+    
     // contextObject?.done(ObjectEvent(
     //     GestureManagerContextObject.Move,
     //     PointExt(
@@ -112,10 +114,8 @@ class GestureManager {
     //             position.y.round().toDouble()))));
 
 
-
-//    tracker.done(new ObjectEvent(GestureManagerContextObject.TouchMove,
-//        new Point<double>(position.x.round().toDouble(), position.y.round().toDouble()))
-//    );
+    tracker.done(ObjectEvent(TrackContextObject.TouchMove, point));
+    
   }
 
   void onUp(int timeStampInMs, int key, Point<double> point) {

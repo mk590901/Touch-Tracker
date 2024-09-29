@@ -118,8 +118,8 @@ class TrackContextObject implements IObject {
 				? 'InsideDown-QHsmScheme.TouchMove'
 				: 'InsideDown-QHsmScheme.TouchMove[$data]');
 
-		_timeMachine.delete(_timer);
-		GestureManager.manager()?.eventTap(_pointer, _downPoint!);
+		//_timeMachine.delete(_timer);
+		// GestureManager.manager()?.eventTap(_pointer, _downPoint!);
 
 		return result;
 	}
