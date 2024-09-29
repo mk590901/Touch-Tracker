@@ -84,7 +84,8 @@ class DrawingWidget extends StatelessWidget implements IUpdate {
               size: Size.infinite,
               painter: GesturePainter(
                   state.points,
-                  Colors.lightBlue.shade100,
+                  Colors.lightBlue.shade200,
+                  //Colors.purple.shade100,
                   state.color,
                   state.lineWidth,
                   state.zoomLevel,

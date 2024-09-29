@@ -4,17 +4,15 @@ import 'ui/drawing_widget.dart';
 
 void main() {
   GestureManager.initInstance();
-  runApp(const MyApp());
+  runApp(const OneTouchApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class OneTouchApp extends StatelessWidget {
+  const OneTouchApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: MainAppPage()
-    );
+    return MaterialApp(home: MainAppPage());
   }
 }
 
@@ -27,8 +25,7 @@ class MainAppPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: //const Text('One Touch Tracker'),
-        const Text('One Touch Tracker',
+        title: const Text('One Touch Tracker',
             style: TextStyle(
               color: Colors.white,
               fontSize: 16,
@@ -50,11 +47,11 @@ class MainAppPage extends StatelessWidget {
             ),
           ),
         ),
-        leading: IconButton(onPressed: () {},
+        leading: IconButton(
+            onPressed: () {},
             icon: const Icon(Icons.draw_outlined, color: Colors.white)),
       ),
       body: drawingWidget,
     );
   }
 }
-
