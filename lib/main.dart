@@ -28,7 +28,23 @@ class MainAppPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Main App Page'),
+        title: //const Text('One Touch Tracker'),
+        const Text('One Touch Tracker',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+              fontStyle: FontStyle.italic,
+              shadows: [
+                Shadow(
+                  blurRadius: 8.0,
+                  color: Colors.indigo,
+                  offset: Offset(3.0, 3.0),
+                ),
+              ],
+            )),
+        backgroundColor: Colors.lightBlue,
+        leading: IconButton(onPressed: () {},
+            icon: const Icon(Icons.draw_outlined, color: Colors.white)),
       ),
       body: drawingWidget,
     );
