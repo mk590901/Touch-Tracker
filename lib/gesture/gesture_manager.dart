@@ -1,16 +1,12 @@
 import 'dart:math';
 import 'dart:ui';
 
-import 'package:touch_track/gesture/trackers_container.dart';
-
 import '../q_hsm_track/track_context_object.dart';
 import '../q_interfaces/i_gesture_listener.dart';
-import '../q_interfaces/i_logger.dart';
-import '../q_support/Interceptor.dart';
-import '../q_support/logger.dart';
 import '../q_support/object_event.dart';
 import '../q_support/tracker.dart';
 import 'gesture_listeners_container.dart';
+import 'trackers_container.dart';
 
 class GestureManager {
   static GestureManager? _instance;
