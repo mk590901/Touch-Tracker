@@ -1,23 +1,9 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
-
 import '../gesture/gesture_type.dart';
 import '../helpers/pair.dart';
 import '../helpers/taps.dart';
 import '../q_interfaces/typedefs.dart';
-// import '../../components/application/application_holder.dart';
-// import '../../components/gesture/gesture_type.dart';
-// import '../../components/text_style/text_style_helper.dart';
-// import '../../hsm_editor/Editor.dart';
-// import '../../hsm_editor/graphicInterfaces/IPainter.dart';
-// import '../../hsm_editor/graphicInterfaces/IShape.dart';
-// import '../../hsm_editor/graphicPrimitives/CellWrapper.dart';
-// import '../../hsm_editor/scene/scene_entity.dart';
-// import '../../components/helpers/taps.dart';
-// import '../../core/callback_fun_type.dart';
-// import '../../ui_skeleton/pair.dart';
-// import '../utils_functions.dart';
 
 class GesturePainter extends CustomPainter /*implements IPainter*/ {
   final List<Offset?> points;
