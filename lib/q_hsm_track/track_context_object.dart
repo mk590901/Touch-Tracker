@@ -275,7 +275,7 @@ class TrackContextObject implements IObject {
 				? 'CheckMove-QHsmScheme.TouchMove'
 				: 'CheckMove-QHsmScheme.TouchMove[$data]');
 
-		GestureManager.manager()?.eventMove(_pointer, ActionModifier.Start, data as Point<double>);
+		//GestureManager.manager()?.eventMove(_pointer, ActionModifier.Start, data as Point<double>);
 
 		return result;
 	}
