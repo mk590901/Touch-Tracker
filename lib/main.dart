@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'gesture/gesture_manager.dart';
 import 'ui/drawing_widget.dart';
 
