@@ -107,6 +107,8 @@ class TrackQHsmScheme extends QHsm {
 	}
 
 	QState?	CheckMoveState	(QEvent e){
+
+		print ('CheckMoveState [${e.sig}]');
 		switch (e.sig) {
 			case QHsm.Q_ENTRY_SIG:
 				mediator_?.execute("CheckMove", QHsm.Q_ENTRY_SIG, e.ticket);

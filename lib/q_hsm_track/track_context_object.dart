@@ -26,6 +26,7 @@ class TrackContextObject implements IObject {
 	final DirectionHelper   _directionHelper= DirectionHelper (8);
 
 	final int  TIMEOUT_FOR_LONG_PRESS = 1000;
+	final double THRESHOLD       = 25.0;  //  16.0 - Ok
 
 	static final int  APP_START_ENUM  = 1;
 	static final int  TERMINATE       = APP_START_ENUM;
@@ -117,10 +118,6 @@ class TrackContextObject implements IObject {
 		_logger?.trace(data == null
 				? 'InsideDown-QHsmScheme.TouchMove'
 				: 'InsideDown-QHsmScheme.TouchMove[$data]');
-
-		//_timeMachine.delete(_timer);
-		// GestureManager.manager()?.eventTap(_pointer, _downPoint!);
-
 		return result;
 	}
 
@@ -156,8 +153,11 @@ class TrackContextObject implements IObject {
 				: 'Moving-QHsm.Q_ENTRY_SIG[$data]');
 
 		double average  = _velocityHelper.average();
+
+		print('onMovingEntry->$average');
+
 		if (average >= 0.01) {
-			//print('MOVE');
+			print('onMovingEntry.MOVE');
 			//@@@@@@@_gesture.onMove(_pointer, ActionModifier.Continue, data);
 			GestureManager.manager()?.eventMove(_pointer, ActionModifier.Continue, data as Point<double>);
 
@@ -207,7 +207,24 @@ class TrackContextObject implements IObject {
 		_logger?.trace(data == null
 				? 'CheckMove-QHsm.Q_ENTRY_SIG'
 				: 'CheckMove-QHsm.Q_ENTRY_SIG[$data]');
+///////////////////////////////////////////////////////////////////
+		if (data is! Point<double>) {
+			return result;
+		}
+		Point<double>
+		point = data;
+		if (isFirstMove(point.x, point.y)) {
+			done(ObjectEvent(TrackContextObject.MoveStart, data));
+		}
+//////////////////////////////////////////////////////////////////
 		return result;
+	}
+
+	bool isFirstMove(double x, double y) {
+		double  dx    = x    - _downPoint!.x;
+		double  dy    = y    - _downPoint!.y;
+		double  shift = (dx*dx + dy*dy);
+		return  shift < THRESHOLD ? false : true;
 	}
 
 	bool onCheckMoveExit(Object? data) {
