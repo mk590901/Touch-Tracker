@@ -1,1 +1,1 @@
-typedef Function Execute (int signal, int ticket);
+typedef Execute = Function Function(int signal, int ticket);

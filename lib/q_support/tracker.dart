@@ -27,7 +27,7 @@ class Tracker {
   Tracker(this._pointer) {
     logger        = Logger();
     contextLogger = Logger();
-    interceptor   = Interceptor(logger!);
+    interceptor   = Interceptor();
     contextObject = TrackContextObject(_pointer, contextLogger);
     mediator      = TrackMediator(contextObject, interceptor!, contextLogger!);
     scheme        = TrackQHsmScheme(mediator!);

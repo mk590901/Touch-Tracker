@@ -2,25 +2,16 @@
 import '../q_interfaces/i_logger.dart';
 
 class Interceptor {
-  Map<int, Object>? _container = null;
-  ILogger? _logger = null;
-  static final int INVALID_TICKET = -1;
+  Map<int, Object>? _container = <int, Object>{};
+  final int INVALID_TICKET = -1;
 
-  Interceptor(ILogger logger) {
-    _logger = logger;
-    createTable();
-  }
-
-  void createTable() {
-    _container = <int, Object>{};
-  }
+  Interceptor();
 
   int putObject(Object? object) {
     int result = INVALID_TICKET;
-    if (object == null) return result;
-//    if (_container.length > 0)
-//      _container.clear()
-//    ;
+    if (object == null) {
+      return result;
+    }
     result = getUniqueId();
     if (result == INVALID_TICKET) return result;
     if (_container!.containsKey(result)) {
