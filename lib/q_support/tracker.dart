@@ -47,18 +47,15 @@ class Tracker {
   }
 
   void init(int time, double x, double y) {
-    //print ('tracker init is done');
     contextObject.moveInit(time, x, y);
   }
 
   void update(int time, double x, double y) {
-    print ('tracker update is done [$x,$y]');
     contextObject.moveDone(time, x, y, this);
   }
 
   void stop() {
     contextObject.moveStop();
-    print ('tracker stop is done');
   }
 
   void setCurrentPoint(Point<double> point) {

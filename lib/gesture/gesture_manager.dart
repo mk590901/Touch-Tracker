@@ -11,15 +11,6 @@ import 'trackers_container.dart';
 class GestureManager {
   static GestureManager? _instance;
 
-//  State machine attributes
-  //ILogger? logger;
-  //ILogger? contextLogger;
-  //Interceptor? interceptor;
-  //GestureManagerContextObject? contextObject;
-  //GestureManagerMediator? mediator;
-  //GestureManagerQHsmScheme? scheme;
-  //GestureHsmWrapper? schemeWrapper;
-
   final GestureListenersContiner _listeners = GestureListenersContiner();
   final TrackersContiner _container = TrackersContiner();
 
@@ -27,9 +18,7 @@ class GestureManager {
     _instance ??= GestureManager();
   }
 
-  GestureManager() {
-    _initStateMachine();
-  }
+  GestureManager();
 
   static GestureManager? manager() {
     if (_instance == null) {
@@ -63,10 +52,6 @@ class GestureManager {
   int listenersNumber() {
     return _listeners.size();
   }
-
-  // void doSomething() {
-  //   print("Do something...");
-  // }
 
 //  Main functions
   void onDown(int timeStampInMs, int key, Point<double> position) {
@@ -104,18 +89,7 @@ class GestureManager {
       return;
     }
     tracker.update(timeStampInMs, point.x, point.y);
-    
-    
-    // contextObject?.done(ObjectEvent(
-    //     GestureManagerContextObject.Move,
-    //     PointExt(
-    //         key,
-    //         Point<double>(position.x.round().toDouble(),
-    //             position.y.round().toDouble()))));
-
-
     tracker.done(ObjectEvent(TrackContextObject.TouchMove, point));
-    
   }
 
   void onUp(int timeStampInMs, int key, Point<double> point) {
@@ -124,36 +98,7 @@ class GestureManager {
       print("onUp: Failed to get tracker [$key]");
       return;
     }
-
     tracker.done(ObjectEvent(TrackContextObject.TouchUp, point));
-
-
-    // contextObject?.done(ObjectEvent(
-    //     GestureManagerContextObject.Up,
-    //     PointExt(
-    //         key,
-    //         Point<double>(position.x.round().toDouble(),
-    //             position.y.round().toDouble()))));
-
-    //  Error. this operation for tracker's state machine
-//    tracker.done(new ObjectEvent(GestureManagerContextObject.TouchUp,
-//        new Point<double>(position.x.round().toDouble(), position.y.round().toDouble()))
-//    );
-//    tracker.stop();
-//    _container.unregister(key);
-  }
-
-  void _initStateMachine() {
-    //logger = Logger();
-    //contextLogger = Logger();
-    //interceptor = Interceptor(logger!);
-    // contextObject = GestureManagerContextObject(contextLogger);
-    // mediator =
-    //     GestureManagerMediator(contextObject!, interceptor!, contextLogger!);
-    // scheme = GestureManagerQHsmScheme(mediator!);
-    // schemeWrapper = GestureHsmWrapper(scheme!, mediator!);
-    //
-    // contextObject!.init();
   }
 
   void eventTap(int pointer, Point<double> point) {
@@ -193,85 +138,11 @@ class GestureManager {
     }
   }
 
-  void eventTerminateMove() {
-    print("------- TERMINATE -------");
-    Map<int, Tracker> tracks = _container.trackers();
-    _listeners.listeners().forEach((k, listener) {
-      tracks.forEach((pointer, tracker) {
-        Point<double> lastPoint = tracker.contextObject.getLastPoint()!;
-        listener.onMove(pointer, ActionModifier.Terminate, lastPoint);
-        //tracker.done(new ObjectEvent(TrackContextObject.TouchMove, lastPoint)); //  ????
-        //tracker.done(new ObjectEvent(TrackContextObject.Reset, lastPoint)); //  ????
-      });
-    });
-    print("+++++++ TERMINATE +++++++");
-  }
-
   void eventPause(int pointer, Point<double> point) {
     print('eventPause->[$pointer]($point)');
     Map<int,IGestureListener> map = _listeners.clone();
     map.forEach((k, listener) {
       listener.onPause(pointer, point);
     });
-  }
-
-  void eventScroll(
-      int pointer,
-      ActionModifier actionModifier,
-      List<Point<double>>? downPoints,
-      List<Point<double>>? lastPoints,
-      Offset offset) {
-    //print('eventScroll->[$pointer]($actionModifier)');
-    _listeners.listeners().forEach((k, listener) {
-      listener.onScroll(
-          pointer, actionModifier, downPoints, lastPoints, offset);
-    });
-
-    if (actionModifier == ActionModifier.Final) {
-//      _container.unregister(pointer);
-//      print ('Tracker [$pointer] was unregistered');
-      print('Scroll final: all trackers are unregistered');
-      _container.clear();
-    }
-  }
-
-  void eventZoom(
-      int pointer,
-      ActionModifier actionModifier,
-      List<Point<double>>? downPoints,
-      List<Point<double>>? lastPoints,
-      double parameter) {
-      print('eventZoom->[$pointer]($actionModifier) _listeners#->${_listeners.size()}, parameter->$parameter');
-      _listeners.listeners().forEach((k, listener) {
-          listener.onZoom(
-            pointer, actionModifier, downPoints, lastPoints, parameter);
-    });
-
-    if (actionModifier == ActionModifier.Final) {
-//      _container.unregister(pointer);
-//      print ('Tracker [$pointer] was unregistered');
-      print('Zoom final: all trackers are unregistered');
-      _container.clear();
-    }
-  }
-
-  void eventRotate(
-      int pointer,
-      ActionModifier actionModifier,
-      List<Point<double>>? downPoints,
-      List<Point<double>>? lastPoints,
-      double? parameter) {
-    //print('eventRotate->[$pointer]($actionModifier)');
-    _listeners.listeners().forEach((k, listener) {
-      listener.onRotate(
-          pointer, actionModifier, downPoints, lastPoints, parameter);
-    });
-
-    if (actionModifier == ActionModifier.Final) {
-//      _container.unregister(pointer);
-//      print ('Tracker [$pointer] was unregistered');
-      print('Rotate final: all trackers are unregistered');
-      _container.clear(); //  unregister all trackers
-    }
   }
 }
