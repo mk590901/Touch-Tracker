@@ -68,7 +68,7 @@ class TrackContextObject implements IObject {
 				: 'Idle-QHsmScheme.TouchDown[$data]');
 
 		setDownPoint(data as Point<double>);
-		_timer = _timeMachine.invoke2(TIMEOUT_FOR_LONG_PRESS, startNotifier, finalNotifier);
+		_timer = _timeMachine.invoke(TIMEOUT_FOR_LONG_PRESS, startNotifier, finalNotifier);
 
 		return result;
 	}

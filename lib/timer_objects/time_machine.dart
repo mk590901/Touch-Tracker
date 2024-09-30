@@ -10,27 +10,7 @@ class TimeMachine {
   //final Duration oneMs = const Duration(seconds:1000);
 
   final Map<String, ITimer> _container = <String, ITimer>{};
-
-  String create(int period, INotifier startNotifier, INotifier finalNotifier) {
-    String result = "";
-    ITimer timer = SoftTimer(this);
-    timer.setPeriod(period);
-    timer.setStartNotifier(startNotifier);
-    timer.setFinalNotifier(finalNotifier);
-    _container[timer.ident()] = timer;
-    if (_container.length == 1) {
-      print('-1- timer was created -1-');
-      Timer.periodic(oneMs, (Timer t) {
-        execute();
-        if (_container.isEmpty) {
-          t.cancel();
-        }
-      });
-    }
-    result = timer.ident();
-    return result;
-  }
-
+  
   bool delete(String timerIdent) {
     bool result = false;
     if (_container.containsKey(timerIdent)) {
@@ -41,8 +21,8 @@ class TimeMachine {
     return result;
   }
 
-  String create2(int period, void startNotifierFunc(String a, String b),
-      void finalNotifierFunc(String a, String b)) {
+  String create(int period, void Function(String a, String b) startNotifierFunc,
+      void Function(String a, String b) finalNotifierFunc) {
     String result = "";
     ITimer timer = SoftTimer(this);
     timer.setPeriod(period);
@@ -86,15 +66,10 @@ class TimeMachine {
     result = true;
     return result;
   }
-
-  String invoke(int period, INotifier startNotifier, INotifier finalNotifier) {
-    String result = create(period, startNotifier, finalNotifier);
-    return start(result) ? result : "";
-  }
-
-  String invoke2(int period, Notifier startNotifierFunc,
+  
+  String invoke(int period, Notifier startNotifierFunc,
       Notifier finalNotifierFunc) {
-    String result = create2(period, startNotifierFunc, finalNotifierFunc);
+    String result = create(period, startNotifierFunc, finalNotifierFunc);
     return start(result) ? result : "";
   }
 
