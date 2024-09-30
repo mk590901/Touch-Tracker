@@ -42,10 +42,6 @@ class Tracker {
     contextObject.done(event);
   }
 
-  void doneInside(ObjectEvent event) {
-    contextObject.doneInside(event);
-  }
-
   void init(int time, double x, double y) {
     contextObject.moveInit(time, x, y);
   }

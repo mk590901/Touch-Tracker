@@ -296,27 +296,6 @@ class TrackMediator extends IMediator {
   }
 
   @override
-  void objDoneInside(int signal, Object? data) {
-		int hsmEvt = eventObj2Hsm(signal);
-		int dataId = _interceptor.putObject(data);
-		QEvent e = QEvent(hsmEvt, dataId);
-		_queue.addFirst(e);
-
-//      printQueue();
-
-		scheduleMicrotask(() {
-			while (_queue.isNotEmpty) {
-				QEvent event = _queue.removeFirst();
-				String?  eventText = getEventId(event.sig);
-					_logger?.clear('[$eventText]: ');
-				_hsm?.dispatch(event);
-					_logger?.printTrace();
-				_interceptor.clear(event.ticket);
-			}
-		});
-  }
-
-  @override
   void setHsm(IHsm hsm) {
 		_hsm = hsm;
 	}

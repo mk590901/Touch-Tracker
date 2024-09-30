@@ -305,12 +305,6 @@ class TrackContextObject implements IObject {
 		_mediator = mediator;
   }
 
-	@override
-	void doneInside(ObjectEvent signal) {
-		//print('done.signal->[${signal.event()}]');
-		_mediator!.objDoneInside(signal.event(), signal.data()!);
-	}
-
 	void moveInit(int time, double x, double y) {
 		_velocityHelper .init(time, x, y);
 		_directionHelper.init(x, y);
