@@ -7,7 +7,6 @@ import '../drawing_bloc/scene_state.dart';
 import '../gesture/gesture_manager.dart';
 import '../gesture/gesture_observer.dart';
 import '../gesture/gesture_type.dart';
-import '../helpers/pair.dart';
 import '../q_interfaces/i_gesture_listener.dart';
 import '../q_interfaces/i_update.dart';
 import '../q_interfaces/typedefs.dart';
@@ -19,7 +18,7 @@ class DrawingWidget extends StatelessWidget implements IUpdate {
 
   late Size screenSize = const Size(0, 0);
   late Offset screenOffset = const Offset(0, 0);
-  late double stepSize;
+  //late double stepSize;
 
   //final GesturePageState mockObject = GesturePageState();
 
@@ -74,9 +73,6 @@ class DrawingWidget extends StatelessWidget implements IUpdate {
           double y = position.dy.round().toDouble();
           GestureManager.manager()?.onUp(0, 1, Point<double>(x, y));
         },
-        // onLongPress: () {
-        //   drawingBloc.add(ClearDrawing());
-        // },
 
         child: BlocBuilder<DrawingBloc, SceneState>(
           builder: (context, state) {
@@ -85,13 +81,12 @@ class DrawingWidget extends StatelessWidget implements IUpdate {
               painter: GesturePainter(
                   state.points,
                   Colors.lightBlue.shade200,
-                  //Colors.purple.shade100,
                   state.color,
                   state.lineWidth,
-                  state.zoomLevel,
-                  state.gridMode,
-                  state.offset,
-                  10,
+                  // state.zoomLevel,
+                  // state.gridMode,
+                  // state.offset,
+                  // 10,
                   state.gestureType,
                   state.taps,
                   state.longPresses, (sizeParam) {
@@ -99,8 +94,8 @@ class DrawingWidget extends StatelessWidget implements IUpdate {
                 //  Recalculate shift
                   //debugPrint('******* DrawingWidget.canvasSize->$sizeParam *******');
                   screenSize = sizeParam;
-                  recalculateShift(
-                      sizeParam, state.offset, state.zoomLevel, 10);
+                  // recalculateShift(
+                  //     sizeParam, state.offset, state.zoomLevel, 10);
 
                   //checkSelectedShapes();
 
@@ -116,10 +111,10 @@ class DrawingWidget extends StatelessWidget implements IUpdate {
     );
   }
 
-//  getters
-  bool gridMode() {
-    return drawingBloc.state.gridMode;
-  }
+// //  getters
+//   bool gridMode() {
+//     return drawingBloc.state.gridMode;
+//   }
 
   void clear() {
     drawingBloc.add(ClearDrawing());
@@ -133,25 +128,25 @@ class DrawingWidget extends StatelessWidget implements IUpdate {
     drawingBloc.add(ChangeColor(color));
   }
 
-  void changeGridMode(bool gridMode) {
-    debugPrint('changeGridMode->$gridMode');
-    drawingBloc.add(ChangeGridMode(gridMode));
-  }
+  // void changeGridMode(bool gridMode) {
+  //   debugPrint('changeGridMode->$gridMode');
+  //   drawingBloc.add(ChangeGridMode(gridMode));
+  // }
+  //
+  // void changeZoom(double zoomLevel) {
+  //   //ApplicationHolder.holder()?.updateScene (zoomLevel, Pair<int,int>(0,0));
+  //   drawingBloc.add(ChangeZoom(zoomLevel));
+  // }
 
-  void changeZoom(double zoomLevel) {
-    //ApplicationHolder.holder()?.updateScene (zoomLevel, Pair<int,int>(0,0));
-    drawingBloc.add(ChangeZoom(zoomLevel));
-  }
-
-  void recalculateShift(Size canvasSize, Pair<int, int> offset,
-      double zoomLevel, int gridsNumber) {
-    double gridSize = gridsNumber / zoomLevel;
-    stepSize = canvasSize.width / gridSize;
-    double horizontalShift = -(stepSize * offset.first());
-    double verticalShift = -(stepSize * offset.second());
-    debugPrint('recalculateShift: [$horizontalShift,$verticalShift] ($stepSize)');
-    screenOffset = Offset(horizontalShift, verticalShift);
-  }
+  // void recalculateShift(Size canvasSize, Pair<int, int> offset,
+  //     double zoomLevel, int gridsNumber) {
+  //   double gridSize = gridsNumber / zoomLevel;
+  //   stepSize = canvasSize.width / gridSize;
+  //   double horizontalShift = -(stepSize * offset.first());
+  //   double verticalShift = -(stepSize * offset.second());
+  //   debugPrint('recalculateShift: [$horizontalShift,$verticalShift] ($stepSize)');
+  //   screenOffset = Offset(horizontalShift, verticalShift);
+  // }
 
   void refresh() {
     debugPrint('DrawingWidget.refresh');
@@ -176,8 +171,6 @@ class DrawingWidget extends StatelessWidget implements IUpdate {
     double dx = screenOffset.dx;
     double dy = screenOffset.dy;
 
-    //@debugPrint('updateAndReset.drawWithPaint.shift->($dx,$dy),stepSize->$stepSize');
-
     double horizontalShift = -dx; //-(stepSize * dx);
     double verticalShift = -dy; //-(stepSize * dy);
 
@@ -190,22 +183,6 @@ class DrawingWidget extends StatelessWidget implements IUpdate {
     //  Processing...
     if (type == GestureType.TAP_) {
       debugPrint('GestureType.TAP_');
-      // ContextObject? contextObject =
-      //     ApplicationHolder.holder()?.getContextObject();
-      // contextObject?.done2(
-      //     mockObject,
-      //     ObjectEvent(
-      //         ContextObject.TouchDown,
-      //         Point<double>(
-      //             point.x.round().toDouble(), point.y.round().toDouble())));
-      // contextObject?.done2(
-      //     mockObject, ObjectEvent(ContextObject.Timeout, "Timeout"));
-      // contextObject?.done2(
-      //     mockObject,
-      //     ObjectEvent(
-      //         ContextObject.TouchUp,
-      //         Point<double>(
-      //             point.x.round().toDouble(), point.y.round().toDouble())));
     }
   }
 
@@ -223,23 +200,14 @@ class DrawingWidget extends StatelessWidget implements IUpdate {
 
     Point<double> point = Point(point_.x - horizontalShift, point_.y - verticalShift);
 
-    debugPrint('updateMove [${point_.x.toStringAsFixed(1)},${point_.y.toStringAsFixed(1)}] ($dx,$dy)($stepSize) [${point.x.toStringAsFixed(1)},${point.y.toStringAsFixed(1)}]');
+    debugPrint('updateMove [${point_.x.toStringAsFixed(1)},${point_.y.toStringAsFixed(1)}] ($dx,$dy) [${point.x.toStringAsFixed(1)},${point.y.toStringAsFixed(1)}]');
 
     ////////////////////////////////////////////////////////////////////////////////////////////
 
-    // ContextObject? contextObject =
-    //   ApplicationHolder.holder()?.getContextObject();
-    //
     if (actionModifier == ActionModifier.Start) {
       drawingBloc.add(AddPoint(Offset(point.x, point.y) + screenOffset));
 
       debugPrint('ActionModifier.Start');
-
-      // contextObject?.done2(
-      //     mockObject,
-      //     ObjectEvent(ContextObject.TouchDown,
-      //         Point(point.x.round().toDouble(), point.y.round().toDouble())));
-      // contextObject?.done2(mockObject, ObjectEvent(ContextObject.Timeout, "Timeout"));
 
     }
     else if (actionModifier == ActionModifier.Continue) {
@@ -247,23 +215,13 @@ class DrawingWidget extends StatelessWidget implements IUpdate {
 
       debugPrint('ActionModifier.Continue');
 
-      // contextObject?.done2(
-      //     mockObject,
-      //     ObjectEvent(ContextObject.TouchMove,
-      //         Point(point.x.round().toDouble(), point.y.round().toDouble())));
-
     }
     else {
       if (actionModifier == ActionModifier.Terminate) {
         debugPrint('ActionModifier.Terminate');
 
       }
-
       drawingBloc.add(ClearDrawing());
-      // contextObject?.done2(
-      //     mockObject,
-      //     ObjectEvent(ContextObject.TouchUp,
-      //         Point(point.x.round().toDouble(), point.y.round().toDouble())));
     }
 
   }
@@ -277,11 +235,4 @@ class DrawingWidget extends StatelessWidget implements IUpdate {
   void updateZoom(ActionModifier actionModifier, double parameter) {
     // TODO: implement updateZoom
   }
-
-  // void checkSelectedShapes() {
-  //   Editor? editor = ApplicationHolder.holder()?.editor;
-  //   IShape? selectedShape = editor?.getSelectedObject();
-  //   int? size = editor?.getShapes()?.size();
-  //   callback?.call(Pair<int?,IShape?>(size,selectedShape));
-  // }
 }

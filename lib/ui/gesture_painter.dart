@@ -10,10 +10,10 @@ class GesturePainter extends CustomPainter /*implements IPainter*/ {
   final Color color;
   final Color canvasColor;
   final double lineWidth;
-  final double zoomLevel;
-  final bool gridMode;
-  final Pair<int,int> offset;
-  final int gridsNumber;
+  // final double zoomLevel;
+  // final bool gridMode;
+  // final Pair<int,int> offset;
+  // final int gridsNumber;
   final int gestureType;
   final Taps taps;
   final Taps longPresses;
@@ -42,8 +42,8 @@ class GesturePainter extends CustomPainter /*implements IPainter*/ {
   late Paint paintRawPoints;
   late Paint paintCanvas;
 
-  GesturePainter(this.points, this.canvasColor, this.color, this.lineWidth, this.zoomLevel, this.gridMode,
-      this.offset, this.gridsNumber, this.gestureType, this.taps, this.longPresses, this.callback) {
+  GesturePainter(this.points, this.canvasColor, this.color, this.lineWidth, /*this.zoomLevel, this.gridMode,
+      this.offset, this.gridsNumber,*/ this.gestureType, this.taps, this.longPresses, this.callback) {
 
     taps.setCallback(callback);
     longPresses.setCallback(callback);
