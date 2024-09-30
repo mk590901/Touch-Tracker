@@ -17,12 +17,6 @@ class TrackHsmWrapper implements IHsm {
     _mediator?.setHsm(this);
   }
 
-  @override
-  IMediator? getMediator() {
-    return _mediator;
-  }
-
-  @override
   void setMediator(IMediator mediator) {
     _mediator = mediator;
   }
@@ -35,16 +29,6 @@ class TrackHsmWrapper implements IHsm {
   @override
   void dispatch(QEvent event) {
     _entity?.dispatch(event);
-  }
-
-  @override
-  void dispatchAsync(QEvent event) {
-    _queue.add(event);
-    Timer.run(() {
-      while (_queue.isNotEmpty) {
-        _entity!.dispatch(_queue.removeFirst());
-      }
-    });
   }
 
   @override
