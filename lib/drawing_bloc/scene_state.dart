@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import '../helpers/pair.dart';
 import '../helpers/taps.dart';
 
 class SceneState extends Equatable {
