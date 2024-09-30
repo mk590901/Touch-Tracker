@@ -7,6 +7,5 @@ abstract class IUpdate {
   void  update          (GestureType type, [Object? object]);
   void  updateAndReset  (GestureType type, [Object? object]);
   void  updateMove      (int pointer, ActionModifier actionModifier, Point<double> point);
-  void  updateScroll    (ActionModifier actionModifier, Offset offset);
-  void  updateZoom      (ActionModifier actionModifier, double parameter);
+
 }
