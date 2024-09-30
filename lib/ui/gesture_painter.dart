@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import '../gesture/gesture_type.dart';
-import '../helpers/pair.dart';
 import '../helpers/taps.dart';
 import '../q_interfaces/typedefs.dart';
 
@@ -10,10 +9,6 @@ class GesturePainter extends CustomPainter /*implements IPainter*/ {
   final Color color;
   final Color canvasColor;
   final double lineWidth;
-  // final double zoomLevel;
-  // final bool gridMode;
-  // final Pair<int,int> offset;
-  // final int gridsNumber;
   final int gestureType;
   final Taps taps;
   final Taps longPresses;
