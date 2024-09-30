@@ -7,5 +7,4 @@ abstract class IUpdate {
   void  update          (GestureType type, [Object? object]);
   void  updateAndReset  (GestureType type, [Object? object]);
   void  updateMove      (int pointer, ActionModifier actionModifier, Point<double> point);
-
 }
