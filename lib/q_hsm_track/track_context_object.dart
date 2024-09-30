@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import '../gesture/gesture_manager.dart';
-import '../helpers/DirectionHelper.dart';
 import '../helpers/velocity_helper.dart';
 import '../q_interfaces/i_gesture_listener.dart';
 import '../q_interfaces/i_logger.dart';
@@ -23,7 +22,6 @@ class TrackContextObject implements IObject {
 	late  String       _timer          = "";
 
 	final VelocityHelper    _velocityHelper = VelocityHelper  (8);
-	final DirectionHelper   _directionHelper= DirectionHelper (8);
 
 	final int  TIMEOUT_FOR_LONG_PRESS = 1000;
 	final double THRESHOLD       = 25.0;  //  16.0 - Ok
@@ -274,9 +272,6 @@ class TrackContextObject implements IObject {
 		_logger?.trace(data == null
 				? 'CheckMove-QHsmScheme.TouchMove'
 				: 'CheckMove-QHsmScheme.TouchMove[$data]');
-
-		//GestureManager.manager()?.eventMove(_pointer, ActionModifier.Start, data as Point<double>);
-
 		return result;
 	}
 
@@ -307,7 +302,6 @@ class TrackContextObject implements IObject {
 
 	void moveInit(int time, double x, double y) {
 		_velocityHelper .init(time, x, y);
-		_directionHelper.init(x, y);
 	}
 
 	void moveDone(int time, double x, double y, Tracker tracker) {
@@ -315,18 +309,10 @@ class TrackContextObject implements IObject {
 		if (average >= 0.01) {
 			tracker.setCurrentPoint(Point<double>(x.round().toDouble(),y.round().toDouble()));
 		}
-		_directionHelper.direction(x, y);
-//    Offset a = _directionHelper.average();
-//    if (a != null)
-//    {
-//    //  _tracker.onTryToRecognizeGesture(_pointer, a, _gesture);
-//      print ('direction->(${v.dx},${v.dy})->(${a.dx},${a.dy})');
-//    }
 	}
 
 	void moveStop() {
 		_velocityHelper .reset();
-		_directionHelper.reset();
 	}
 
 	void setDownPoint(Point<double> point) {
