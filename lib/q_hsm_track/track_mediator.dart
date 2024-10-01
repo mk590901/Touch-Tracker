@@ -16,7 +16,7 @@ class TrackMediator extends IMediator {
 
 	final Map <int,String>	hashTable	= <int, String>{};
 	final ILogger?	_logger;
-	IHsm?	_hsm;
+	late  IHsm?	_hsm;
 	final TrackContextObject	_context;
 	final Interceptor	_interceptor;
 	final Commands	_commands	= Commands();
