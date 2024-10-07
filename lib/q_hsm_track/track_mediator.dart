@@ -1,3 +1,4 @@
+//	MediatorDartCompileVisitor: file automatically generated at 2024-10-07 08:26:08
 import 'dart:async';
 import 'dart:collection';
 import '../q_hsm_core/q_event.dart';
