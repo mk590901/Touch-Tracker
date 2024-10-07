@@ -1,8 +1,5 @@
-
-import '../q_interfaces/i_logger.dart';
-
 class Interceptor {
-  Map<int, Object>? _container = <int, Object>{};
+  final Map<int, Object>? _container = <int, Object>{};
   final int INVALID_TICKET = -1;
 
   Interceptor();

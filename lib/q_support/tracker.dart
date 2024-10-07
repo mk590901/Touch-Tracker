@@ -6,7 +6,7 @@ import '../q_hsm_track/track_mediator.dart';
 import '../q_hsm_track/track_qhsm_scheme.dart';
 import '../q_interfaces/i_gesture_listener.dart';
 import '../q_interfaces/i_logger.dart';
-import 'Interceptor.dart';
+import 'interceptor.dart';
 import 'logger.dart';
 import 'object_event.dart';
 
