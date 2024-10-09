@@ -21,7 +21,7 @@ Below is a list of these elements and a brief description.
 __DrawingWidget__ is _StatelessWidget_, on the one hand it uses a standard __GestureDetector__ to intercept _onPanStart_, _onPanUpdate_ and _onPanEnd_ events and interpret them by the state machine, and on the other hand it uses a __GesturePainter__ to graphically display changes. __GesturePainter__ reflects the state of the special bloc-class _DrawingBloc_.
 
 ### GestureManager
-This singleton object manages the hierarchical state machine. When gesture is started, an instance of __Tracker__ object is created inside this object, which contains the __HSM__.
+This singleton object manages the hierarchical state machine. When gesture action is started, an instance of __Tracker__ object is created inside this object, which contains the __HSM__.
 
 ## Movie
 
