@@ -13,7 +13,12 @@ The application consists of the following elements:
 
 - A widget, which is a primitive graphical component capable of reflecting touch and moving as a track and the state of this track, for example, as text.
 - This widget must physically catch touch and transmit the corresponding events to the state machine.
-- The state machine must interpret the events and translate them into tap, long press, move or pause events.
+- The state machine must interpret the events and translate them into tap, long press, move or pause events and render them in the app.
+
+Below is a list of these elements and a brief description.
+
+### DrawingWidget
+__DrawingWidget__ is _StatelessWidget_, on the one hand it uses a standard __GestureDetector__ to intercept _onPanStart_, _onPanUpdate_ and _onPanEnd_ events and interpret them by the state machine, and on the other hand it uses a __GesturePainter__ to graphically display changes. __GesturePainter__ reflects the state of the special bloc-class _DrawingBloc_.
 
 ## Movie
 
