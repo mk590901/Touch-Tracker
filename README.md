@@ -26,10 +26,14 @@ This singleton object manages the hierarchical state machine. When gesture actio
 ### Tracker
 __Tracker__ is a holder of the state machine created by the graphical editor. __HSM__ consists of three classes: _TrackQHsmScheme_, _TrackMediator_ and _TrackContextObject_. The first two classes do not change, and the third - _TrackContextObject_ must be adapted and matched to the features of the application. And finally, there is a _TrackHsmWrapper_ class that glues _TrackQHsmScheme_ and _TrackMediator_ for lazy internal interaction.
 
-
+### HSM Base Classes
+As noted above, the _TrackQHsmScheme_, _TrackMediator_, and _TrackContextObject_ classes are automatically created by the graphical editor when compiling the data structure describing the graphical representation of the __HSM__. These classes are derive classes from the base classes of the __Quantum HSM__ core system of _Miro Samek_ ported to __dart__: __QHsm__, __QState__, and __QEvent__. Note the __q_hsm_core__ project folder.
 
 ## Movie
+The movie consists of two parts: the first demonstrates the state machine structure and simulation, and the second demonstrates the __One Touch Tracker__ app.
 
 https://github.com/user-attachments/assets/d72ee971-acf7-4925-aa83-b5f8ec0f06b2
 
+## Conclusion
+I tried to create an application that uses some of the advantages of the __HSM graphic editor__ I created, such for instance as automatic code generation. However, the ported __Quantum framework__ can be used without any connection with my exercises. You can write your own __<Custom>QHsm__ class derived from QHsm manually.
 
