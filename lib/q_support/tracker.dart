@@ -11,8 +11,6 @@ import 'logger.dart';
 import 'object_event.dart';
 
 class Tracker {
-  //GestureManager  _manager;
-
   ILogger?             logger;
   ILogger?             contextLogger;
   Interceptor?         interceptor;
