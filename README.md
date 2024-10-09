@@ -1,6 +1,6 @@
-# touch_track
+# Touch Tracker
 
-A new Flutter project.
+Touch Tracker is application uses the standard Flutter's 🙌 GestureDetector component to translate _down_, _up_ and _move_ events to __tap__, __longPress__, __move__ (start, continue and final) and __pause__ commands.
 
 ## Getting Started
 
