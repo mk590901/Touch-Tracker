@@ -23,6 +23,11 @@ __DrawingWidget__ is _StatelessWidget_, on the one hand it uses a standard __Ges
 ### GestureManager
 This singleton object manages the hierarchical state machine. When gesture action is started, an instance of __Tracker__ object is created inside this object, which contains the __HSM__.
 
+### Tracker
+__Tracker__ is a holder of the state machine created by the graphical editor. __HSM__ consists of three classes: _TrackQHsmScheme_, _TrackMediator_ and _TrackContextObject_. The first two classes do not change, and the third - _TrackContextObject_ must be adapted and matched to the features of the application. And finally, there is a _TrackHsmWrapper_ class that glues _TrackQHsmScheme_ and _TrackMediator_ for lazy internal interaction.
+
+
+
 ## Movie
 
 https://github.com/user-attachments/assets/d72ee971-acf7-4925-aa83-b5f8ec0f06b2
